@@ -8,6 +8,7 @@ vi.mock('next/navigation');
 describe('Header component behaviour', () => {
 
   test("It renders a header element", () => {
+    vi.mocked(navigation.usePathname).mockReturnValue('/');
     render(<Header />);
     expect(() => screen.getByRole("banner")).not.toThrow();
   })
