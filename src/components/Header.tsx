@@ -2,7 +2,12 @@
 
 import { usePathname } from "next/navigation";
 
-const routes_config = {
+type RouteInfo = { title: string };
+type RoutesConfig = {
+  [key: string]: RouteInfo
+}
+
+const routes_config: RoutesConfig = {
   '/': { title: 'MoodSelector' },
 }
 
