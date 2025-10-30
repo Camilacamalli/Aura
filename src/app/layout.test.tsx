@@ -17,5 +17,6 @@ test(" The root layout renders the Header component with homepage content when d
     </RootLayout>
   )
 
-  expect(() => screen.getByRole('heading', { name: /MoodSelector/i })).not.toThrow()
+  expect(() => screen.getByRole('heading', { name: /MoodSelector/i })).not.toThrow();
+  expect(() => screen.getByText('/Welcome to Homepage/i'))
 })
