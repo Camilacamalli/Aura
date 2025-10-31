@@ -9,6 +9,7 @@ type RoutesConfig = {
 
 const routes_config: RoutesConfig = {
   '/': { title: 'MoodSelector' },
+  '/results': { title: 'MoodResults' }
 }
 
 export default function Header() {
