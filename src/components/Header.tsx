@@ -2,13 +2,14 @@
 
 import { usePathname } from "next/navigation";
 
-type RouteInfo = { title: string };
+type ConfigButton = { label: string; href?: string };
+type RouteInfo = { title: string, buttons?: ConfigButton[] };
 type RoutesConfig = {
   [key: string]: RouteInfo
 }
 
 const routes_config: RoutesConfig = {
-  '/': { title: 'MoodSelector' },
+  '/': { title: 'MoodSelector', buttons: [{ label: "How to use Aura" }] },
   '/results': { title: 'MoodResults' }
 }
 
@@ -19,8 +20,12 @@ export default function Header() {
   return (
     <header>
       <h1>{config.title}</h1>
-      {pathname === '/' && (
-        <button>How to use Aura</button>
+      {config.buttons && (
+        <div>
+          {config.buttons.map((button, i) => (
+            <button key={i}>{button.label}</button>
+          ))}
+        </div>
       )}
     </header>
   )
