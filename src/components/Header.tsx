@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import { usePathname } from "next/navigation";
 
+const logo_url = '/auraLogo.png';
+const logo_alt_text = 'Aura logo';
+
 type ConfigButton = { label: string; href?: string };
 type RouteInfo = { title: string, buttons?: ConfigButton[] };
 type RoutesConfig = {
@@ -20,7 +23,7 @@ export default function Header() {
 
   return (
     <header>
-      <Image src="/auraLogo.png" alt="Aura logo" width={100} height={100} />
+      <Image src={logo_url} alt={logo_alt_text} width={100} height={100} />
       <h1>{config.title}</h1>
       {config.buttons && (
         <div>
