@@ -34,4 +34,11 @@ describe('Header component behaviour', () => {
     render(<Header />);
     expect(screen.getByRole('button', { name: /How to use Aura/i })).toBeInTheDocument();
   })
+
+  test('It displays a Home button when on the /results page', () => {
+    vi.mocked(navigation.usePathname).mockReturnValue('/results');
+    render(<Header />);
+    expect(screen.getByRole('button', { name: /Home/i })).toBeInTheDocument();
+  })
+
 })
