@@ -10,7 +10,7 @@ type RoutesConfig = {
 
 const routes_config: RoutesConfig = {
   '/': { title: 'MoodSelector', buttons: [{ label: "How to use Aura" }] },
-  '/results': { title: 'MoodResults' }
+  '/results': { title: 'MoodResults', buttons: [{ label: "Home" }] }
 }
 
 export default function Header() {
