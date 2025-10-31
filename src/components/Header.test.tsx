@@ -24,4 +24,10 @@ describe('Header component behaviour', () => {
     expect(() => titleElement).not.toThrow();
   })
 
+  test('It displays the title MoodResults when on the /results page ', () => {
+    vi.mocked(navigation.usePathname).mockReturnValue('/results');
+    render(<Header />);
+    expect(() => screen.getByRole("heading", { name: /MoodResults/i })).not.toThrow();
+  })
+
 })
