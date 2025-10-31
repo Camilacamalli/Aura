@@ -14,20 +14,19 @@ describe('Header component behaviour', () => {
   test("It renders a header element", () => {
     vi.mocked(navigation.usePathname).mockReturnValue('/');
     render(<Header />);
-    expect(() => screen.getByRole("banner")).not.toThrow();
+    expect(screen.getByRole("banner")).toBeInTheDocument();
   })
 
   test("It displays the title MoodSelector when on the homepage", () => {
     vi.mocked(navigation.usePathname).mockReturnValue('/');
     render(<Header />);
-    const titleElement = screen.getByRole('heading', { name: /MoodSelector/i });
-    expect(() => titleElement).not.toThrow();
+    expect(screen.getByRole('heading', { name: /MoodSelector/i })).toBeInTheDocument();
   })
 
   test('It displays the title MoodResults when on the /results page ', () => {
     vi.mocked(navigation.usePathname).mockReturnValue('/results');
     render(<Header />);
-    expect(() => screen.getByRole("heading", { name: /MoodResults/i })).not.toThrow();
+    expect(screen.getByRole("heading", { name: /MoodResults/i })).toBeInTheDocument();
   })
 
 })
