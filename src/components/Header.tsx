@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import { usePathname } from "next/navigation";
 
 type ConfigButton = { label: string; href?: string };
@@ -19,6 +20,7 @@ export default function Header() {
 
   return (
     <header>
+      <Image src="/auraLogo.png" alt="Aura logo" width={100} height={100} />
       <h1>{config.title}</h1>
       {config.buttons && (
         <div>
