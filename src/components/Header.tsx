@@ -19,6 +19,9 @@ export default function Header() {
   return (
     <header>
       <h1>{config.title}</h1>
+      {pathname === '/' && (
+        <button>How to use Aura</button>
+      )}
     </header>
   )
 }
