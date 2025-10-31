@@ -17,6 +17,12 @@ describe('Header component behaviour', () => {
     expect(screen.getByRole("banner")).toBeInTheDocument();
   })
 
+  test('It displays the app logo', () => {
+    vi.mocked(navigation.usePathname).mockReturnValue('/');
+    render(<Header/>);
+    expect(screen.getByAltText(/Aura logo/i)).toBeInTheDocument();
+  })
+
   describe('When on the homepage...', () => {
 
     beforeEach(() => {
