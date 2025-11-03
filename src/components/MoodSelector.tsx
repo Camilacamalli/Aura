@@ -21,9 +21,9 @@ export default function MoodSelector() {
       <h1>What is your mood today?</h1>
       <p>{formattedDate}</p>
       <h2>Select your Mood:</h2>
-      <div>
+      <div className="flex flex-row">
         {moodOptions.map((mood, i) => (
-          <button key={i}>
+          <button key={i} className="flex flex-col items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
             <span>{mood.label}</span>
           </button>
         ))}

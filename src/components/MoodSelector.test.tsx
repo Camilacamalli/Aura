@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, test, expect, vi, afterEach } from 'vitest';
 import MoodSelector from '@/components/MoodSelector'
 
@@ -33,6 +34,15 @@ describe("MoodSelector component", () => {
       expect(screen.getByRole('button', { name: label })).toBeInTheDocument();
     })
   })
+
+  test("It displays a confirmation step after a mood is selected", async () => {
+    render(<MoodSelector />);
+    const sadButton = screen.getByRole('button', { name: /^Sad$/i });
+    await userEvent.click(sadButton);
+    expect(screen.getByRole('heading', { name: /You are feeling Sad/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Stay in the mood/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Change mood/i })).toBeInTheDocument();
+  });
 
 });
 
