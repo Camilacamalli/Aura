@@ -21,6 +21,11 @@ describe("MoodSelector component", () => {
     expect(screen.getByText('Thursday, October 30')).toBeInTheDocument();
   });
 
+  test("It renders the 'Select your Mood:' prompt", () => {
+    render(<MoodSelector/>);
+    expect(screen.getByText(/Select your Mood:/i)).toBeInTheDocument()
+  })
+
 });
 
 
