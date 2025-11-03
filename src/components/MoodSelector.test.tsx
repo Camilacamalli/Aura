@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { test } from 'vitest';
+import { test, expect } from 'vitest';
 import MoodSelector from '@/components/MoodSelector'
 
 test("It renders a heading with 'What is your Mood today?'", () => {
