@@ -22,8 +22,16 @@ describe("MoodSelector component", () => {
   });
 
   test("It renders the 'Select your Mood:' prompt", () => {
-    render(<MoodSelector/>);
+    render(<MoodSelector />);
     expect(screen.getByText(/Select your Mood:/i)).toBeInTheDocument()
+  })
+
+  test("It displays five mood selection buttons", () => {
+    render(<MoodSelector />);
+    const moodLabels = ["Very Sad", "Sad", "Neutral", "Happy", "Very Happy"];
+    moodLabels.forEach(label => {
+      expect(screen.getByRole('button', { name: label })).toBeInTheDocument();
+    })
   })
 
 });
