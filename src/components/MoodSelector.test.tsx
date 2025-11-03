@@ -34,6 +34,7 @@ describe("MoodSelector component", () => {
     const moodLabels = ["Very Sad", "Sad", "Neutral", "Happy", "Very Happy"];
     moodLabels.forEach(label => {
       expect(screen.getByRole('button', { name: label })).toBeInTheDocument();
+      expect(screen.getByAltText(label)).toBeInTheDocument();
     })
   })
 
