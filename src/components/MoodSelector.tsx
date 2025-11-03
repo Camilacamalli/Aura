@@ -25,6 +25,7 @@ export default function MoodSelector() {
   return (
     <div>
       <h1 className='text-4xl font-bold'>What is your mood today?</h1>
+      <p className='mt-2 text-lg text-emerald-700 font-bold'>Select your mood to get personalized songs recommendation!</p>
       <p className='mt-2 text-lg font-medium text-gray-500'>{formattedDate}</p>
       <h2 className='mt-8 text-2xl font-bold'>Select your Mood:</h2>
       <div className="mt-6 flex justify-center gap-4 md:gap-8">

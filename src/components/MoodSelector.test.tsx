@@ -41,8 +41,9 @@ describe("MoodSelector component", () => {
     const sadButton = screen.getByRole('button', { name: /^Sad$/i });
     await userEvent.click(sadButton);
     expect(screen.getByRole('heading', { name: /You are feeling Sad/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Stay in the mood/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Change mood/i })).toBeInTheDocument();
+    expect(screen.getByText(/What kind of music would you like?/i))
+    expect(screen.getByRole('button', { name: /Songs to match my mood/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Songs to change my mood/i })).toBeInTheDocument();
   });
 
 });
