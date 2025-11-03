@@ -24,28 +24,28 @@ export default function MoodSelector() {
 
   return (
     <div>
-      <h1>What is your mood today?</h1>
-      <p>{formattedDate}</p>
-      <h2>Select your Mood:</h2>
-      <div className="flex flex-row">
+      <h1 className='text-4xl font-bold'>What is your mood today?</h1>
+      <p className='mt-2 text-lg font-medium text-gray-500'>{formattedDate}</p>
+      <h2 className='mt-8 text-2xl font-bold'>Select your Mood:</h2>
+      <div className="mt-6 flex justify-center gap-4 md:gap-8">
         {moodOptions.map((mood, i) => (
           <button
             key={i}
             className="flex flex-col items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
             onClick={() => setSelectedMood(mood.label)}>
             {/* <div className="w-16 h-16 bg-gray-200 rounded-full"></div> */}
-            <span>{mood.label}</span>
+            <span className="font-medium text-gray-600">{mood.label}</span>
           </button>
         ))}
       </div>
 
       {selectedMood && (
-        <div>
-          <h3>You are feeling {selectedMood}</h3>
-          <p>What would you like to do next?</p>
-          <div>
-            <button>Stay in the mood</button>
-            <button>Change mood</button>
+        <div className="mt-10 p-6 border-t border-gray-200">
+          <h3 className="text-2xl font-bold">You are feeling {selectedMood}</h3>
+          <p className="mt-2 text-gray-600">What would you like to do next?</p>
+          <div className="mt-6 flex justify-center gap-4">
+            <button className="h-10 px-6 font-semibold rounded-full bg-emerald-700 text-white">Stay in the mood</button>
+            <button className="h-10 px-6 font-semibold rounded-full border border-gray-300 text-emerald-700">Change mood</button>
           </div>
         </div>
       )}
