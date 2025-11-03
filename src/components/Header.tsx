@@ -22,16 +22,27 @@ export default function Header() {
   const config = routes_config[pathname];
 
   return (
-    <header>
-      <Image src={logo_url} alt={logo_alt_text} width={100} height={100} />
-      <h1>{config.title}</h1>
-      {config.buttons && (
+    <header className="flex items-center justify-between border-b border-solid border-gray-200 px-4 md:px-10 py-3">
+      <div className="flex items-center gap-4">
+        <div className="w-10 h-10">
+          <Image src={logo_url} alt={logo_alt_text} width={50} height={100} />
+        </div>
         <div>
+          <h1 className="text-lg font-bold tracking-wide">{config.title}</h1>
+        </div>
+      </div>
+      {config.buttons && (
+        <div className="flex flex-1 justify-end gap-4 md:gap-8 items-center">
           {config.buttons.map((button, i) => (
-            <button key={i}>{button.label}</button>
+            <button key={i} className='flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-wide hover:bg-emerald-700/80 transition-colors bg-emerald-700'>
+              <span>{button.label}</span>
+            </button>
           ))}
         </div>
       )}
+      <div></div>
     </header>
   )
 }
+
+
