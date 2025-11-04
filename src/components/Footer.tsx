@@ -4,7 +4,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer role="contentinfo" className="text-center bg-[#111121] text-white space-y-6 p-[2.5rem]">
+    <footer id="about-section" role="contentinfo" className="text-center bg-[#111121] text-white space-y-6 p-[2.5rem]">
       <div className='space-x-6'>
         <Link href="/privacy-policy">Privacy Policy</Link>
         <Link href="/terms-of-service">Terms of Service</Link>
