@@ -35,12 +35,10 @@ describe("Footer component", () => {
       expect(linkElement).toHaveAttribute('href', '/terms-of-service');
     })
 
+    test("...a disclaimer about not being affiliated with Spotify", () => {
+      expect(screen.getByText(/Not affiliated with or endorsed by Spotify/i)).toBeInTheDocument();
+    })
+
   })
 
 })
-
-test("Footer displays a disclaimer about not being affiliated with Spotify", () => {
-  render(<Footer />);
-  expect(screen.getByText(/Not affiliated with or endorsed by Spotify/i)).toBeInTheDocument();
-})
-
