@@ -1,9 +1,9 @@
 export default function Footer() {
-  return (
-    <>
-      <footer>
+  const currentYear = new Date().getFullYear();
 
-      </footer>
-    </>
+  return (
+    <footer role="contentinfo">
+      <p>&copy; {currentYear} Aura. All Rights Reserved.</p>
+    </footer>
   )
 }

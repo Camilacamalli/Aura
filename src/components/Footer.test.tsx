@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 
 test("It renders the footer", () => {
   render(<Footer />);
-  expect(screen.getByRole('contentinfo')).not.toThrow();
+  expect(screen.getByRole('contentinfo')).toBeInTheDocument();
 })
 
 test("It displays the copyright notice with the current year", () => {
