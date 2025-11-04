@@ -19,7 +19,7 @@ describe('Header component behaviour', () => {
 
   test('It displays the app logo', () => {
     vi.mocked(navigation.usePathname).mockReturnValue('/');
-    render(<Header/>);
+    render(<Header />);
     expect(screen.getByAltText(/Aura logo/i)).toBeInTheDocument();
   })
 
@@ -56,4 +56,12 @@ describe('Header component behaviour', () => {
     })
   })
 
+})
+
+test("It displays an 'About' link to the footer section", () => {
+  vi.mocked(navigation.usePathname).mockReturnValue('/');
+
+  render(<Header />);
+  expect(screen.getByRole('link', { name: /About/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /About/i })).toHaveAttribute('href', '#about-section')
 })
