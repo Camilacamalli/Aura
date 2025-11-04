@@ -28,6 +28,12 @@ describe("Footer component", () => {
     expect(linkElement).toHaveAttribute('href', '/privacy-policy');
   })
 
+  test("It displays a link to the Terms of Service", () => {
+    const linkElement = screen.getByRole('link', { name: /Terms of Service/i });
+    expect(linkElement).toBeInTheDocument();
+    expect(linkElement).toHaveAttribute('href', '/terms-of-service');
+  })
+
 })
 
 
