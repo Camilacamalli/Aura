@@ -42,3 +42,9 @@ describe("Footer component", () => {
   })
 
 })
+
+test("Footer displays contact link for email", () => {
+  render(<Footer />);
+  expect(screen.getByRole('link', { name: /camilaagustinacamalli@gmail.com/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /camilaagustinacamalli@gmail.com/i })).toHaveAttribute('href', 'mailto:camilaagustinacamalli@gmail.com');
+})
