@@ -49,6 +49,16 @@ describe("Footer component", () => {
       expect(linkElement).toBeInTheDocument();
       expect(linkElement).toHaveAttribute('href', `mailto:${email}`);
     })
+
+    test("...contact link for linkedIn", () => {
+      const linkedInLink = "https://www.linkedin.com/in/camila-camalli/";
+      const linkElement = screen.getByRole('link', { name: /LinkedIn/i })
+
+      expect(linkElement).toBeInTheDocument();
+      expect(linkElement).toHaveAttribute('href', `${linkedInLink}`);
+      expect(linkElement).toHaveAttribute('target', '_blank');
+    })
+
   })
 
 })
