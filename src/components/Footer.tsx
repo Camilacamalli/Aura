@@ -10,6 +10,7 @@ export default function Footer() {
         <Link href="/terms-of-service">Terms of Service</Link>
       </div>
       <p>&copy; {currentYear} Aura. All Rights Reserved.</p>
+      <p>This app uses the Spotify API but is not affiliated with or endorsed by Spotify</p>
     </footer>
   )
 }
