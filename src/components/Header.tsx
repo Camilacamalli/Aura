@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from "next/navigation";
 
 const logo_url = '/auraLogo.png';
@@ -33,6 +34,7 @@ export default function Header() {
       </div>
       {config.buttons && (
         <div className="flex flex-1 justify-end gap-4 md:gap-8 items-center">
+          <Link href="#about-section">About</Link>
           {config.buttons.map((button, i) => (
             <button key={i} className='flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-wide hover:bg-emerald-700/80 transition-colors bg-emerald-700'>
               <span>{button.label}</span>
