@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from 'react';
+import Image from 'next/image'
 
 const moodOptions = [
-  { label: 'Very Sad' },
-  { label: 'Sad' },
-  { label: 'Neutral' },
-  { label: 'Happy' },
-  { label: 'Very Happy' }
+  { label: 'Very Sad', emoji: '/emojis/crying.png' },
+  { label: 'Sad', emoji: '/emojis/tired.png' },
+  { label: 'Neutral', emoji: '/emojis/rolling-eyes.png' },
+  { label: 'Happy', emoji: '/emojis/smiling-face.png' },
+  { label: 'Very Happy', emoji: '/emojis/grinning.png' }
 ]
 
 
@@ -33,8 +34,9 @@ export default function MoodSelector() {
           <button
             key={i}
             className="flex flex-col items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            onClick={() => setSelectedMood(mood.label)}>
-            {/* <div className="w-16 h-16 bg-gray-200 rounded-full"></div> */}
+            onClick={() => setSelectedMood(mood.label)}
+            aria-label={mood.label}>
+            <div><Image src={mood.emoji} alt={mood.label} width={100} height={100} /></div>
             <span className="font-medium text-gray-600">{mood.label}</span>
           </button>
         ))}
