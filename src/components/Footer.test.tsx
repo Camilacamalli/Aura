@@ -15,23 +15,26 @@ describe("Footer component", () => {
     expect(footer).toBeInTheDocument();
   })
 
-  test("It displays the copyright notice with the current year", () => {
-    const currentYear = new Date().getFullYear();
-    const copyrightRegex = new RegExp(`© ${currentYear} Aura. All Rights Reserved.`, 'i');
-    expect(within(footer).getByText(copyrightRegex))
-  })
+  describe("It displays...", () => {
 
-  test("It displays a link to the Privacy Policy", () => {
-    const linkElement = screen.getByRole('link', { name: /Privacy Policy/i });
+    test("...the copyright notice with the current year", () => {
+      const currentYear = new Date().getFullYear();
+      const copyrightRegex = new RegExp(`© ${currentYear} Aura. All Rights Reserved.`, 'i');
+      expect(within(footer).getByText(copyrightRegex))
+    })
 
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', '/privacy-policy');
-  })
+    test("...a link to the Privacy Policy", () => {
+      const linkElement = screen.getByRole('link', { name: /Privacy Policy/i });
+      expect(linkElement).toBeInTheDocument();
+      expect(linkElement).toHaveAttribute('href', '/privacy-policy');
+    })
 
-  test("It displays a link to the Terms of Service", () => {
-    const linkElement = screen.getByRole('link', { name: /Terms of Service/i });
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', '/terms-of-service');
+    test("...a link to the Terms of Service", () => {
+      const linkElement = screen.getByRole('link', { name: /Terms of Service/i });
+      expect(linkElement).toBeInTheDocument();
+      expect(linkElement).toHaveAttribute('href', '/terms-of-service');
+    })
+
   })
 
 })
