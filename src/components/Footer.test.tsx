@@ -20,17 +20,20 @@ describe("Footer component", () => {
     test("...the copyright notice with the current year", () => {
       const currentYear = new Date().getFullYear();
       const copyrightRegex = new RegExp(`© ${currentYear} Aura. All Rights Reserved.`, 'i');
+
       expect(within(footer).getByText(copyrightRegex))
     })
 
     test("...a link to the Privacy Policy", () => {
       const linkElement = screen.getByRole('link', { name: /Privacy Policy/i });
+
       expect(linkElement).toBeInTheDocument();
       expect(linkElement).toHaveAttribute('href', '/privacy-policy');
     })
 
     test("...a link to the Terms of Service", () => {
       const linkElement = screen.getByRole('link', { name: /Terms of Service/i });
+
       expect(linkElement).toBeInTheDocument();
       expect(linkElement).toHaveAttribute('href', '/terms-of-service');
     })
@@ -39,12 +42,15 @@ describe("Footer component", () => {
       expect(screen.getByText(/Not affiliated with or endorsed by Spotify/i)).toBeInTheDocument();
     })
 
+    test("...contact link for email", () => {
+      const email = "camilaagustinacamalli@gmail.com";
+      const linkElement = screen.getByRole('link', { name: `${email}` })
+
+      expect(linkElement).toBeInTheDocument();
+      expect(linkElement).toHaveAttribute('href', `mailto:${email}`);
+    })
   })
 
 })
 
-test("Footer displays contact link for email", () => {
-  render(<Footer />);
-  expect(screen.getByRole('link', { name: /camilaagustinacamalli@gmail.com/i })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: /camilaagustinacamalli@gmail.com/i })).toHaveAttribute('href', 'mailto:camilaagustinacamalli@gmail.com');
-})
+
