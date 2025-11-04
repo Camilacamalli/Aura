@@ -23,6 +23,15 @@ describe('Header component behaviour', () => {
     expect(screen.getByAltText(/Aura logo/i)).toBeInTheDocument();
   })
 
+  test("It displays an 'About' link to the footer section", () => {
+    vi.mocked(navigation.usePathname).mockReturnValue('/');
+    render(<Header />);
+    const linkElement = screen.getByRole('link', { name: /About/i });
+
+    expect(linkElement).toBeInTheDocument();
+    expect(linkElement).toHaveAttribute('href', '#about-section')
+  })
+
   describe('When on the homepage...', () => {
 
     beforeEach(() => {
@@ -56,12 +65,4 @@ describe('Header component behaviour', () => {
     })
   })
 
-})
-
-test("It displays an 'About' link to the footer section", () => {
-  vi.mocked(navigation.usePathname).mockReturnValue('/');
-
-  render(<Header />);
-  expect(screen.getByRole('link', { name: /About/i })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: /About/i })).toHaveAttribute('href', '#about-section')
 })
