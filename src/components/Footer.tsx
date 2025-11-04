@@ -11,6 +11,7 @@ export default function Footer() {
       </div>
       <div>
         <a href="mailto:camilaagustinacamalli@gmail.com">camilaagustinacamalli@gmail.com</a>
+        <a href="https://www.linkedin.com/in/camila-camalli/" target="_blank">LinkedIn</a>
       </div>
       <p>&copy; {currentYear} Aura. All Rights Reserved.</p>
       <p>This app uses the Spotify API but is not affiliated with or endorsed by Spotify</p>
