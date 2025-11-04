@@ -15,6 +15,10 @@ describe("Footer component", () => {
     expect(footer).toBeInTheDocument();
   })
 
+  test("It has a unique id for in-page navigation", () => {
+    expect(footer).toHaveAttribute('id', 'about-section');
+  })
+
   describe("It displays...", () => {
 
     test("...the copyright notice with the current year", () => {
@@ -61,9 +65,4 @@ describe("Footer component", () => {
 
   })
 
-})
-
-test("Footer has a unique id for in-page navigation", () => {
-  render(<Footer />);
-  expect(screen.getByRole('contentinfo')).toHaveAttribute('id', 'about-section');
 })
