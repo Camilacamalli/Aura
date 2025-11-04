@@ -22,12 +22,8 @@ describe("MoodSelector component", () => {
     vi.useRealTimers();
   });
 
-  test("It displays a welcome description of the app", () => {
-    expect(screen.getByText(/Select your mood to get personalized songs recommendation!/i)).toBeInTheDocument();
-  })
-
-  test("It renders the 'Select your Mood:' prompt", () => {
-    expect(screen.getByText(/Select your Mood:/i)).toBeInTheDocument()
+  test("It renders the 'Select your Mood to get personalized songs recommendation!:' prompt", () => {
+    expect(screen.getByText(/Select your Mood to get personalized songs recommendation!/i)).toBeInTheDocument()
   })
 
   test("It displays five mood selection buttons", () => {
