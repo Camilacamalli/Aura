@@ -63,4 +63,7 @@ describe("Footer component", () => {
 
 })
 
-
+test("Footer has a unique id for in-page navigation", () => {
+  render(<Footer />);
+  expect(screen.getByRole('contentinfo')).toHaveAttribute('id', 'about-section');
+})
