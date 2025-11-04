@@ -21,6 +21,11 @@ describe("Footer component", () => {
     expect(within(footer).getByText(copyrightRegex))
   })
 
+  test("It displays links to the Privacy Policy", () => {
+    expect(screen.getByRole('link', { name: /Privacy Policy/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', {name: /Privacy Policy/i})).toHaveAttribute('href', '/privacy-policy')
+  })
+
 })
 
 
