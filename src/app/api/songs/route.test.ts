@@ -52,7 +52,7 @@ describe("GET api/songs", () => {
     ];
 
     test("...returns status 200 when a mood is provided", async () => {
-      mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([]))
+      mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([{ id: 12345, title: 'First Playlist' }]))
         .mockResolvedValueOnce(createMockTracksResponse([]))
       const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
       const response = await GET(request);
@@ -122,6 +122,16 @@ describe("GET api/songs", () => {
     expect(response.status).toBe(500);
     expect(body).toEqual({ error: 'Failed to fetch playlists from Deezer' })
 
+  });
+
+  test("...it returns a 404 status and a specific error message when a playlist is not found", async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve([]) })
+    const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+    const response = await GET(request);
+    const body = await response.json();
+
+    expect(response.status).toBe(404);
+    expect(body).toEqual({ error: 'Could not find a suitable playlist for this mood.' })
   });
 
 });
