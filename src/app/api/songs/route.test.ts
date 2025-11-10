@@ -2,6 +2,9 @@ import { NextRequest } from 'next/server';
 import { test, describe, expect } from 'vitest';
 import { GET } from './route'
 
+const mockFetch = vi.fn();
+global.fetch = mockFetch;
+
 describe("GET api/songs", () => {
 
   test("returns status 400 when mood parameter is missing", async () => {
@@ -28,5 +31,13 @@ describe("GET api/songs", () => {
 
     expect(response.status).toBe(200);
   })
+})
+
+test("GET api/songs calls the Deezer API with the correct search query", async () => {
+  mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ tracks: [] }) })
+  const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+  await GET(request);
+  const expectedURL = "https://api.deezer.com/search/playlist?q=Happy%20Hits";
+  expect(mockFetch).toHaveBeenCalledWith(expectedURL)
 })
 
