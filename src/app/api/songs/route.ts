@@ -51,6 +51,10 @@ export async function GET(request: NextRequest) {
     const tracksUrl = `https://api.deezer.com/playlist/${playlistId}/tracks`;
     const tracksResponse = await fetch(tracksUrl);
 
+    if (!tracksResponse.ok) {
+      throw new Error(`Failed to fetch tracks for playlist ID: ${playlistId}`);
+    }
+
     const tracksData = await tracksResponse.json();
     const responseTracks: Track[] = tracksData.data
       .filter((track: any) => track.preview)
