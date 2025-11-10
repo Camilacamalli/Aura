@@ -5,6 +5,16 @@ import { GET } from './route'
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
+const createMockPlaylistResponse = (playlist: any[]) => ({
+  ok: true, json: () => Promise.resolve({ data: playlist })
+});
+
+const createMockTracksResponse = (tracks: any[]) => ({
+  ok: true, json: () => Promise.resolve({ data: tracks })
+});
+
+const requestForHappyMood = 'http://localhost:3000/api/songs?mood=happy'
+
 describe("GET api/songs", () => {
 
   afterEach(() => {
@@ -35,13 +45,6 @@ describe("GET api/songs", () => {
   });
 
   describe("When the input is valid, it...", () => {
-    const createMockPlaylistResponse = (playlist: any[]) => ({
-      ok: true, json: () => Promise.resolve({ data: playlist })
-    });
-
-    const createMockTracksResponse = (tracks: any[]) => ({
-      ok: true, json: () => Promise.resolve({ data: tracks })
-    });
 
     const moodTestData = [
       { mood: 'happy', expectedQuery: 'Happy Hits' },
@@ -54,7 +57,7 @@ describe("GET api/songs", () => {
     test("...returns status 200 when a mood is provided", async () => {
       mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([{ id: 12345, title: 'First Playlist' }]))
         .mockResolvedValueOnce(createMockTracksResponse([]))
-      const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+      const request = new NextRequest(requestForHappyMood);
       const response = await GET(request);
       expect(response.status).toBe(200);
     });
@@ -77,7 +80,7 @@ describe("GET api/songs", () => {
           { id: 34221, title: 'Second Playlist' }
         ]))
         .mockResolvedValueOnce(createMockTracksResponse([]))
-      const request = new NextRequest('http://localhost:3000/api/songs?mood=happy')
+      const request = new NextRequest(requestForHappyMood)
       await GET(request);
       const expectedTracksUrl = `https://api.deezer.com/playlist/${mockPlaylistId}/tracks`
       expect(mockFetch).toHaveBeenNthCalledWith(2, expectedTracksUrl)
@@ -96,7 +99,7 @@ describe("GET api/songs", () => {
       }));
 
       mockFetch.mockResolvedValueOnce(createMockTracksResponse(rawDeezerTracks));
-      const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+      const request = new NextRequest(requestForHappyMood);
       const response = await GET(request);
       const body = await response.json();
 
@@ -114,9 +117,9 @@ describe("GET api/songs", () => {
 
   });
 
-  test("...it returns a 500 error when the playlist search API call fails", async () => {
+  test("It returns a 500 error when the playlist search API call fails", async () => {
     mockFetch.mockResolvedValueOnce({ ok: false })
-    const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+    const request = new NextRequest(requestForHappyMood);
     const response = await GET(request);
     const body = await response.json();
     expect(response.status).toBe(500);
@@ -124,9 +127,9 @@ describe("GET api/songs", () => {
 
   });
 
-  test("...it returns a 404 status and a specific error message when a playlist is not found", async () => {
-    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve([]) })
-    const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+  test("It returns a 404 status and a specific error message when a playlist is not found", async () => {
+    mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([]))
+    const request = new NextRequest(requestForHappyMood);
     const response = await GET(request);
     const body = await response.json();
 
@@ -134,18 +137,12 @@ describe("GET api/songs", () => {
     expect(body).toEqual({ error: 'Could not find a suitable playlist for this mood.' })
   });
 
-  test("GET returns a 500 status when the tracklist fetch API call fails", async () => {
+  test("It returns a 500 status when the tracklist fetch API call fails", async () => {
     const mockPlaylistId = 12345;
-    mockFetch.mockResolvedValueOnce({
-      ok: true, json: () => Promise.resolve({
-        data: [
-          { id: mockPlaylistId, title: 'A Valid playlist' }
-        ]
-      })
-    })
+    mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([{ id: mockPlaylistId, title: 'A Valid playlist' }]))
       .mockResolvedValueOnce({ ok: false });
 
-    const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+    const request = new NextRequest(requestForHappyMood);
     const response = await GET(request);
     const body = await response.json();
 
