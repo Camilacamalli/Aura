@@ -8,4 +8,5 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Mood parameter is required" }, { status: 400 })
   }
 
+  return NextResponse.json({ songs: [] }, { status: 200 })
 }
