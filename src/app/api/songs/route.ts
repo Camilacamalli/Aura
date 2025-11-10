@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
+interface Track {
+  id: number,
+  title: string,
+  artist: string,
+  album: string,
+  albumArt: string | undefined
+  previewUrl: string | null
+}
+
 type MoodParams = {
   playlistSearchQuery: string;
 }
@@ -28,8 +37,19 @@ export async function GET(request: NextRequest) {
   const playlistData = await playlistResponse.json();
   const playlistId = playlistData.data?.[0]?.id;
   const tracksUrl = `https://api.deezer.com/playlist/${playlistId}/tracks`;
-  console.log({ tracksUrl })
-  const tracksResponse = await fetch(tracksUrl)
+  const tracksResponse = await fetch(tracksUrl);
 
-  return NextResponse.json({ songs: [] }, { status: 200 })
+  const tracksData = await tracksResponse.json();
+  const responseTracks: Track[] = tracksData.data
+    .filter((track: any) => track.preview)
+    .map((track: any) => ({
+      id: track.id,
+      title: track.title,
+      artist: track.artist.name,
+      album: track.album.title,
+      albumArt: track.album.cover_medium,
+      previewUrl: track.preview
+    })).slice(0, 25);
+
+  return NextResponse.json(responseTracks, { status: 200 })
 }
