@@ -134,6 +134,25 @@ describe("GET api/songs", () => {
     expect(body).toEqual({ error: 'Could not find a suitable playlist for this mood.' })
   });
 
+  test("GET returns a 500 status when the tracklist fetch API call fails", async () => {
+    const mockPlaylistId = 12345;
+    mockFetch.mockResolvedValueOnce({
+      ok: true, json: () => Promise.resolve({
+        data: [
+          { id: mockPlaylistId, title: 'A Valid playlist' }
+        ]
+      })
+    })
+      .mockResolvedValueOnce({ ok: false });
+
+    const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+    const response = await GET(request);
+    const body = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(body).toEqual({ error: `Failed to fetch tracks for playlist ID: ${mockPlaylistId}` })
+  });
+
 });
 
 
