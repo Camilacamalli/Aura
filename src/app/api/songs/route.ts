@@ -29,27 +29,37 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Mood parameter is required" }, { status: 400 })
   }
 
-  const moodCriteria = moodMap[mood] as MoodParams;
+  try {
 
-  const playlistSearchUrl = `https://api.deezer.com/search/playlist?q=${encodeURIComponent(moodCriteria.playlistSearchQuery)}`
+    const moodCriteria = moodMap[mood] as MoodParams;
 
-  const playlistResponse = await fetch(playlistSearchUrl);
-  const playlistData = await playlistResponse.json();
-  const playlistId = playlistData.data?.[0]?.id;
-  const tracksUrl = `https://api.deezer.com/playlist/${playlistId}/tracks`;
-  const tracksResponse = await fetch(tracksUrl);
+    const playlistSearchUrl = `https://api.deezer.com/search/playlist?q=${encodeURIComponent(moodCriteria.playlistSearchQuery)}`
 
-  const tracksData = await tracksResponse.json();
-  const responseTracks: Track[] = tracksData.data
-    .filter((track: any) => track.preview)
-    .map((track: any) => ({
-      id: track.id,
-      title: track.title,
-      artist: track.artist.name,
-      album: track.album.title,
-      albumArt: track.album.cover_medium,
-      previewUrl: track.preview
-    })).slice(0, 25);
+    const playlistResponse = await fetch(playlistSearchUrl);
 
-  return NextResponse.json(responseTracks, { status: 200 })
+    if (!playlistResponse.ok) {
+      throw new Error('Failed to fetch playlists from Deezer')
+    }
+
+    const playlistData = await playlistResponse.json();
+    const playlistId = playlistData.data?.[0]?.id;
+    const tracksUrl = `https://api.deezer.com/playlist/${playlistId}/tracks`;
+    const tracksResponse = await fetch(tracksUrl);
+
+    const tracksData = await tracksResponse.json();
+    const responseTracks: Track[] = tracksData.data
+      .filter((track: any) => track.preview)
+      .map((track: any) => ({
+        id: track.id,
+        title: track.title,
+        artist: track.artist.name,
+        album: track.album.title,
+        albumArt: track.album.cover_medium,
+        previewUrl: track.preview
+      })).slice(0, 25);
+
+    return NextResponse.json(responseTracks, { status: 200 })
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || "An unexpected error occurred." }, { status: 500 })
+  }
 }
