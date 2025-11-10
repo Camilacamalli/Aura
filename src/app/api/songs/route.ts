@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
   const playlistResponse = await fetch(playlistSearchUrl);
   const playlistData = await playlistResponse.json();
-  const playlistId = playlistData.tracks?.[0]?.id;
+  const playlistId = playlistData.data?.[0]?.id;
   const tracksUrl = `https://api.deezer.com/playlist/${playlistId}/tracks`;
   console.log({ tracksUrl })
   const tracksResponse = await fetch(tracksUrl)
