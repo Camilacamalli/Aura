@@ -4,14 +4,12 @@ type MoodParams = {
   playlistSearchQuery: string;
 }
 
-const moodMap: { [key: string]: MoodParams | {} } = {
-  happy: {
-    playlistSearchQuery: 'Happy Hits'
-  },
-  sad: {},
-  neutral: {},
-  'very happy': {},
-  'very sad': {}
+const moodMap: { [key: string]: MoodParams } = {
+  happy: { playlistSearchQuery: 'Happy Hits' },
+  sad: { playlistSearchQuery: 'Sad Songs for Crying' },
+  neutral: { playlistSearchQuery: 'Chill Lo-fi Beats' },
+  'very happy': { playlistSearchQuery: 'Feel Good Party Anthems' },
+  'very sad': { playlistSearchQuery: 'Heartbreak Ballads' }
 }
 
 export async function GET(request: NextRequest) {
