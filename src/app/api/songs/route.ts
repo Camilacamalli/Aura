@@ -43,6 +43,11 @@ export async function GET(request: NextRequest) {
 
     const playlistData = await playlistResponse.json();
     const playlistId = playlistData.data?.[0]?.id;
+
+    if (!playlistId) {
+      return NextResponse.json({ error: 'Could not find a suitable playlist for this mood.' }, { status: 404 });
+    }
+
     const tracksUrl = `https://api.deezer.com/playlist/${playlistId}/tracks`;
     const tracksResponse = await fetch(tracksUrl);
 
