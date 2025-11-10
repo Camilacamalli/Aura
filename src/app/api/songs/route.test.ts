@@ -116,4 +116,12 @@ describe("GET api/songs", () => {
 
 });
 
+test("GET returns a 500 error if fetching the playlist fails", async () => {
+  mockFetch.mockResolvedValueOnce({ ok: false })
+  const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+  const response = await GET(request);
+  const body = await response.json();
+  expect(response.status).toBe(500);
+  expect(body).toEqual({ error: 'Failed to fetch playlists from Deezer' })
 
+})
