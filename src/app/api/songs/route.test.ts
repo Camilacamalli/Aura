@@ -13,6 +13,15 @@ describe("GET api/songs", () => {
     expect(body).toEqual({ error: "Mood parameter is required" });
   })
 
+  test("returns a 400 Bad Request when the mood parameter is unsupported", async () => {
+    const request = new NextRequest('http://localhost:3000/api/songs?mood=sleepy');
+    const response = await GET(request);
+    const body = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(body).toEqual({ error: "Mood parameter is required" })
+  })
+
   test("returns status 200 when a mood is provided", async () => {
     const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
     const response = await GET(request);
@@ -23,11 +32,3 @@ describe("GET api/songs", () => {
   })
 })
 
-test("GET api/songs return a 400 Bad Request when the mood parameter is unsupported", async () => {
-  const request = new NextRequest('http://localhost:3000/api/songs?mood=sleepy');
-  const response = await GET(request);
-  const body = await response.json();
-
-  expect(response.status).toBe(400);
-  expect(body).toEqual({ error: "Mood parameter is required" })
-})
