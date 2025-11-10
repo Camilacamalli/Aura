@@ -24,7 +24,12 @@ export async function GET(request: NextRequest) {
 
   const playlistSearchUrl = `https://api.deezer.com/search/playlist?q=${encodeURIComponent(moodCriteria.playlistSearchQuery)}`
 
-  const laylistResponse = await fetch(playlistSearchUrl);
+  const playlistResponse = await fetch(playlistSearchUrl);
+  const playlistData = await playlistResponse.json();
+  const playlistId = playlistData.tracks?.[0]?.id;
+  const tracksUrl = `https://api.deezer.com/playlist/${playlistId}/tracks`;
+  console.log({ tracksUrl })
+  const tracksResponse = await fetch(tracksUrl)
 
   return NextResponse.json({ songs: [] }, { status: 200 })
 }

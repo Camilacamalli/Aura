@@ -30,6 +30,7 @@ describe("GET api/songs...", () => {
   })
 
   test("...returns status 200 when a mood is provided", async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ tracks: [] }) })
     const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
     const response = await GET(request);
 
