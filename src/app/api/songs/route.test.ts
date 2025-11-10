@@ -53,13 +53,15 @@ describe("GET api/songs", () => {
 
     test("...returns status 200 when a mood is provided", async () => {
       mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([]))
+        .mockResolvedValueOnce(createMockTracksResponse([]))
       const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
       const response = await GET(request);
       expect(response.status).toBe(200);
     });
 
     test.each(moodTestData)("...calls the Deezer API with the correct search query for mood: $mood", async ({ mood, expectedQuery }) => {
-      mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([]));
+      mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([]))
+        .mockResolvedValueOnce(createMockTracksResponse([]));
       const request = new NextRequest(`http://localhost:3000/api/songs?mood=${mood}`);
       await GET(request);
 
@@ -81,6 +83,39 @@ describe("GET api/songs", () => {
       expect(mockFetch).toHaveBeenNthCalledWith(2, expectedTracksUrl)
     });
 
+    test("GET returns a maximum of 25 tracks after formating the track data correctly", async () => {
+      const mockPlaylistId = 12345;
+      mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([
+        { id: mockPlaylistId, title: 'Test playlist' }
+      ]));
+
+      const rawDeezerTracks = Array.from({ length: 30 }, (_, i) => ({
+        id: 1000 + i,
+        title: `Song Title ${i}`,
+        artist: { name: `Artist Name ${i}` },
+        album: { title: `Album ${i}`, cover_medium: `http://cover.com/${i}.jpg` },
+        preview: (i % 5 === 0) ? null : `http://preview.com/${i}.mp3`
+      }));
+
+      mockFetch.mockResolvedValueOnce(createMockTracksResponse(rawDeezerTracks));
+      const request = new NextRequest('http://localhost:3000/api/songs?mood=happy');
+      const response = await GET(request);
+      const body = await response.json();
+
+      expect(body).toHaveLength(24);
+      expect(body[0]).toEqual({
+        id: 1001,
+        title: 'Song Title 1',
+        artist: 'Artist Name 1',
+        album: 'Album 1',
+        albumArt: 'http://cover.com/1.jpg',
+        previewUrl: 'http://preview.com/1.mp3'
+      })
+
+    })
+
   });
 
 });
+
+
