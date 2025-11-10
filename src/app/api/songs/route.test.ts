@@ -23,4 +23,11 @@ describe("GET api/songs", () => {
   })
 })
 
+test("Get api/songs return a 400 Bad Request when the mood parameter is unsupported", async () => {
+  const request = new NextRequest('http://localhost:3000/api/songs?mood=sleepy');
+  const response = await GET(request);
+  const body = await response.json();
 
+  expect(response.status).toBe(400);
+  expect(body).toEqual({ error: "Mood parameter is required" })
+})
