@@ -83,11 +83,9 @@ describe("GET api/songs", () => {
       expect(mockFetch).toHaveBeenNthCalledWith(2, expectedTracksUrl)
     });
 
-    test("GET returns a maximum of 25 tracks after formating the track data correctly", async () => {
+    test("...returns a maximum of tracks after formating the track data correctly", async () => {
       const mockPlaylistId = 12345;
-      mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([
-        { id: mockPlaylistId, title: 'Test playlist' }
-      ]));
+      mockFetch.mockResolvedValueOnce(createMockPlaylistResponse([{ id: mockPlaylistId, title: 'Test playlist' }]));
 
       const rawDeezerTracks = Array.from({ length: 30 }, (_, i) => ({
         id: 1000 + i,
