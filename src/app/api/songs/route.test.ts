@@ -53,4 +53,23 @@ describe("GET api/songs...", () => {
 
 })
 
+test("GET fetches tracks for the first playlist found", async () => {
+  const mockPlaylistId = 12345
+  mockFetch
+    .mockResolvedValueOnce({
+      ok: true, json: () => Promise.resolve({
+        tracks: [
+          { id: mockPlaylistId, title: 'Happy Hits Playlist' },
+          { id: 48523, title: 'Another Playlist' }
+        ]
+      })
+    })
+    .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ tracks: [] }) })
 
+
+  const request = new NextRequest('http://localhost:3000/api/songs?mood=happy')
+  await GET(request);
+  const expectedTracksUrl = `https://api.deezer.com/playlist/${mockPlaylistId}/tracks`
+  expect(mockFetch).toHaveBeenNthCalledWith(2, expectedTracksUrl)
+
+})
