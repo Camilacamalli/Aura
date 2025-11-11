@@ -12,19 +12,18 @@ type Song = {
 };
 
 export default function MoodVisualizer() {
-
-  const [loading, setLoading] = useState(true);
-  const [songs, setSongs] = useState<Song[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const mood = searchParams.get('mood');
+  const [loading, setLoading] = useState(!!mood);
+  const [songs, setSongs] = useState<Song[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
 
   const capitalizedMood = mood ? mood.charAt(0).toUpperCase() + mood.slice(1) : '';
 
   useEffect(() => {
 
     if (!mood) {
-      setLoading(false);
       return
     }
 

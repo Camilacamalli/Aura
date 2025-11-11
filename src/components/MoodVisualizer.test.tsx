@@ -11,6 +11,7 @@ global.fetch = mockFetch;
 
 describe("MoodVisualizer displays...", () => {
 
+  const mockMood = 'happy'
   const mockSong = [
     {
       id: 1001,
@@ -30,9 +31,13 @@ describe("MoodVisualizer displays...", () => {
     },
   ]
 
-  test("...a loading indicator on render", () => {
-    const mockSearchParams = new URLSearchParams({ mood: 'happy' });
+  beforeEach(() => {
+    vi.resetAllMocks();
+    const mockSearchParams = new URLSearchParams({ mood: mockMood });
     vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
+  });
+
+  test("...a loading indicator on render", () => {
     mockFetch.mockReturnValue(new Promise(() => { }))
     render(<MoodVisualizer />);
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
@@ -40,32 +45,27 @@ describe("MoodVisualizer displays...", () => {
 
   test("...recommended songs when data is fetched successfully", async () => {
     mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) });
-    const mockSearchParams = new URLSearchParams({ mood: 'happy' });
-    vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
     render(<MoodVisualizer />);
 
     const firstSongTitleElement = screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 })
-
     await expect(firstSongTitleElement).resolves.toBeInTheDocument();
 
     const secondSongTitleElement = screen.getByRole('heading', { name: new RegExp(mockSong[1].title, 'i'), level: 2 })
-
     expect(secondSongTitleElement).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /songs to feel happy/i })).toBeInTheDocument();
+
+    const titleElement = screen.getByRole('heading', { name: new RegExp(`songs to feel ${mockMood}`, 'i') });
+    expect(titleElement).toBeInTheDocument();
+
+    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+  });
+
+  test("...an error message when the data fetch fails", async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 500 });
+    render(<MoodVisualizer />);
+    const errorMessage = await screen.findByText(/oops! we couldn't find your songs/i);
+
+    expect(errorMessage).toBeInTheDocument();
     expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
   })
-
-})
-
-test("MoodVisualizer displays an error message when the data fetch fails", async () => {
-  mockFetch.mockResolvedValue({ ok: false, status: 500 });
-  const mockSearchParams = new URLSearchParams({ mood: 'happy' });
-  vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
-
-  render(<MoodVisualizer />);
-  const errorMessage = await screen.findByText(/oops! we couldn't find your songs/i);
-
-  expect(errorMessage).toBeInTheDocument();
-  expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
 })
 
