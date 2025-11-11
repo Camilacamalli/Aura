@@ -66,15 +66,14 @@ describe("MoodVisualizer displays...", () => {
 
     expect(errorMessage).toBeInTheDocument();
     expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
-  })
-})
+  });
 
-test("MoodVisualizer displays a 'no results' message uf no songs are found", async () => {
-  mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve([]) });
-  const mockSearchParams = new URLSearchParams({ mood: 'happy' });
-  vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
-  render(<MoodVisualizer />);
-  const errorMessage = await screen.findByText(/we couldn't find any songs for this mood/i);
-  expect(errorMessage).toBeInTheDocument();
-  expect(screen.queryByText(/oops!/i)).not.toBeInTheDocument();
-})
+  test("...a 'no results' message when no songs are found", async () => {
+    mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve([]) });
+    render(<MoodVisualizer />);
+    const errorMessage = await screen.findByText(/we couldn't find any songs for this mood/i);
+
+    expect(errorMessage).toBeInTheDocument();
+    expect(screen.queryByText(/oops!/i)).not.toBeInTheDocument();
+  });
+});

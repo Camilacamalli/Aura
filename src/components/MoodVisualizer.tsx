@@ -51,6 +51,14 @@ export default function MoodVisualizer() {
     return <div>{error}</div>
   }
 
+  if (songs.length === 0) {
+    return (
+      <section>
+        <p>We couldn&apos;t find any songs for this mood right now. Try another!</p>
+      </section>
+    )
+  }
+
   return (
     <section>
       <h1>Songs to feel {capitalizedMood}</h1>
