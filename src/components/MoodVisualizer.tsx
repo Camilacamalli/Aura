@@ -18,6 +18,8 @@ export default function MoodVisualizer() {
   const searchParams = useSearchParams();
   const mood = searchParams.get('mood');
 
+  const capitalizedMood = mood ? mood.charAt(0).toUpperCase() + mood.slice(1) : '';
+
   useEffect(() => {
 
     if (!mood) {
@@ -43,7 +45,7 @@ export default function MoodVisualizer() {
 
   return (
     <section>
-      <h1>Songs to feel {mood}</h1>
+      <h1>Songs to feel {capitalizedMood}</h1>
       <div>
         {songs.map((song) => (
           <SongCard key={song.id} song={song} />
