@@ -57,4 +57,15 @@ describe("MoodVisualizer displays...", () => {
 
 })
 
+test("MoodVisualizer displays an error message when the data fetch fails", async () => {
+  mockFetch.mockResolvedValue({ ok: false, status: 500 });
+  const mockSearchParams = new URLSearchParams({ mood: 'happy' });
+  vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
+
+  render(<MoodVisualizer />);
+  const errorMessage = await screen.findByText(/oops! we couldn't find your songs/i);
+
+  expect(errorMessage).toBeInTheDocument();
+  expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+})
 
