@@ -10,7 +10,6 @@ const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 test("MoodVisualizer displays a loading indicator on render", () => {
-  const mockGet = vi.fn().mockReturnValue('happy');
   const mockSearchParams = new URLSearchParams({ mood: 'happy' });
   vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
   render(<MoodVisualizer />);
