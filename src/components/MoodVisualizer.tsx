@@ -15,6 +15,7 @@ export default function MoodVisualizer() {
 
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState<Song[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const mood = searchParams.get('mood');
 
@@ -29,11 +30,15 @@ export default function MoodVisualizer() {
 
     const fetchSongs = async () => {
       const response = await fetch(`/api/songs?mood=${mood}`);
-      const data: Song[] = await response.json();
 
-      setSongs(data);
+      if (response.ok) {
+        const data: Song[] = await response.json();
+        setSongs(data);
+      } else {
+        setError("Oops! We couldn't find your songs")
+      }
+
       setLoading(false);
-
     }
     fetchSongs();
   }, [mood]);
@@ -41,6 +46,10 @@ export default function MoodVisualizer() {
 
   if (loading) {
     return <div>Loading music for you...</div>
+  }
+
+  if (error) {
+    return <div>{error}</div>
   }
 
   return (
