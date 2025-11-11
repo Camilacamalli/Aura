@@ -2,6 +2,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import MoodSelector from '@/components/MoodSelector'
+import * as navigation from 'next/navigation';
+
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn()
+}));
 
 describe("MoodSelector component", () => {
 
@@ -46,4 +51,16 @@ describe("MoodSelector component", () => {
 });
 
 
+test("It natigates to the results page with the correct mood when the user selects it", async () => {
+  const user = userEvent.setup();
+  const mockPush = vi.fn();
+  vi.mocked(navigation.useRouter).mockReturnValue({ push: mockPush } as any);
+  render(<MoodSelector />);
+  const happyButton = screen.getByRole('button', { name: /^happy$/i });
+  await user.click(happyButton);
+  const matchMoodButton = await screen.findByRole('button', { name: /songs to match my mood/i });
+  await user.click(matchMoodButton);
 
+  expect(mockPush).toHaveBeenCalledTimes(1);
+  expect(mockPush).toHaveBeenCalledWith('/results?mood=happy');
+})
