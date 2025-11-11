@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
 
 const moodOptions = [
   { label: 'Very Sad', emoji: '/emojis/crying.png' },
@@ -14,6 +15,7 @@ const moodOptions = [
 
 export default function MoodSelector() {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
+  const router = useRouter();
 
   const today = new Date();
 
@@ -22,6 +24,11 @@ export default function MoodSelector() {
     month: 'long',
     day: 'numeric',
   }).format(today)
+
+  const handleShowSongs = () => {
+    if (!selectedMood) return
+    router.push(`/results?mood=${selectedMood.toLowerCase()}`);
+  }
 
   return (
     <div>
@@ -46,7 +53,10 @@ export default function MoodSelector() {
           <h3 className="text-2xl font-bold">You are feeling {selectedMood}</h3>
           <p className="mt-2 text-gray-600">What kind of music would you like?</p>
           <div className="mt-6 flex justify-center gap-4">
-            <button className="h-10 px-6 font-semibold rounded-full bg-emerald-700 text-white">Songs to match my mood</button>
+            <button
+              className="h-10 px-6 font-semibold rounded-full bg-emerald-700 text-white"
+              onClick={handleShowSongs}
+            >Songs to match my mood</button>
             <button className="h-10 px-6 font-semibold rounded-full border border-gray-300 text-emerald-700">Songs to change my mood</button>
           </div>
         </div>
