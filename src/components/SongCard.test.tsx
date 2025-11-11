@@ -7,14 +7,14 @@ test("SongCard component renders song title, artist and album art", () => {
     id: 1001,
     title: 'Walking on Sunshine',
     artist: 'Katrina & The Waves',
-    album: 'Katrina & The Waver',
+    album: 'Katrina & The Waves',
     albumArt: 'http://example.com/sunshine.jpg',
     previewUrl: 'http://example.com/sunshine.mp3'
   }
 
   render(<SongCard song={mockSong} />);
-  const element = screen.getByRole('heading', { name: /walking on sunshine/i })
+  const element = screen.getByRole('heading', { name: new RegExp(mockSong.title, 'i') })
   expect(element).toBeInTheDocument();
-  expect(screen.getByText(/katrina & the waves/i)).toBeInTheDocument()
-  expect(screen.getByRole('img', { name: /album art for walking on sunshine/i })).toBeInTheDocument();
+  expect(screen.getByText(new RegExp(mockSong.artist, 'i'))).toBeInTheDocument()
+  expect(screen.getByRole('img', { name: new RegExp(`album art for ${mockSong.title}`, 'i')})).toBeInTheDocument();
 });

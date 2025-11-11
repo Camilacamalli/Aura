@@ -1,6 +1,15 @@
 import Image from 'next/image';
 
-export default function SongCard({ song }) {
+type Song = {
+  id: number,
+  title: string,
+  artist: string,
+  album: string,
+  albumArt: string,
+  previewUrl: string
+}
+
+export default function SongCard({ song }: { song: Song }) {
   return (
     <article>
       <Image
