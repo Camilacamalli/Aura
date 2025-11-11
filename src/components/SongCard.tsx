@@ -47,7 +47,7 @@ export default function SongCard({ song }: { song: Song }) {
       </div>
       {song.previewUrl && <audio ref={audioRef} src={song.previewUrl} />}
       <button onClick={togglePlayPause} aria-label={isPlaying ? "Pause Preview" : "Play Preview"}>
-        {isPlaying ? <PlayIcon /> : <PauseIcon />}
+        {isPlaying ? <PauseIcon /> : <PlayIcon />}
       </button>
     </article>
   )
