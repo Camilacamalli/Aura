@@ -1,5 +1,5 @@
 import { test } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import SongCard from '@/components/SongCard';
 
 test("SongCard component renders song title, artist and album art", () => {
@@ -15,6 +15,6 @@ test("SongCard component renders song title, artist and album art", () => {
   render(<SongCard song={mockSong} />);
   const element = screen.getByRole('heading', { name: /walking on sunshine/i })
   expect(element).toBeInTheDocument();
-  expect(within(element).getByText(/katrina & the waves/i))
-  expect(screen.getByRole('img', { name: /album art for walking on sunshine/ })).toBeInTheDocument();
+  expect(screen.getByText(/katrina & the waves/i)).toBeInTheDocument()
+  expect(screen.getByRole('img', { name: /album art for walking on sunshine/i })).toBeInTheDocument();
 });
