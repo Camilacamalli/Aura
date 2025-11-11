@@ -15,7 +15,7 @@ type Song = {
   artist: string,
   album: string,
   albumArt: string,
-  previewUrl: string
+  previewUrl: string | null
 }
 
 export default function SongCard({ song }: { song: Song }) {

@@ -12,6 +12,7 @@ global.fetch = mockFetch;
 test("MoodVisualizer displays a loading indicator on render", () => {
   const mockSearchParams = new URLSearchParams({ mood: 'happy' });
   vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
+  mockFetch.mockReturnValue(new Promise(() => { }))
   render(<MoodVisualizer />);
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
 })
