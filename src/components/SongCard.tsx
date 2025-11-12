@@ -34,22 +34,26 @@ export default function SongCard({ song }: { song: Song }) {
   }
 
   return (
-    <article>
-      <Image
-        src={song.albumArt}
-        alt={`Album art for ${song.title}`}
-        width={150}
-        height={150}
-      />
-      <div>
-        <h2>{song.title}</h2>
-        <p>{song.artist}</p>
+    <article className='bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out overflow-hidden transform hover:-translate-y-1'>
+      <div className="relative group p-5 rounded-full">
+        <Image
+          src={song.albumArt}
+          alt={`Album art for ${song.title}`}
+          width={150}
+          height={150}
+          className="w-full aspect-square rounded-lg object-cover"
+        />
+        <div>
+          <div className='className="p-5"'>
+            <h2 className="font-bold text-xl text-emerald-800 truncate">{song.title}</h2>
+            <p className="text-md text-gray-600 mt-1">{song.artist}</p>
+          </div>
+          {song.previewUrl && <audio ref={audioRef} src={song.previewUrl} />}
+          <button onClick={togglePlayPause} aria-label={isPlaying ? "Pause Preview" : "Play Preview"} className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 text-white transition-opacity duration-300 opacity-0 group-hover:opacity-40 focus:opacity-40">
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+          </button>
+        </div>
       </div>
-      {song.previewUrl && <audio ref={audioRef} src={song.previewUrl} />}
-      <button onClick={togglePlayPause} aria-label={isPlaying ? "Pause Preview" : "Play Preview"}>
-        {isPlaying ? <PauseIcon /> : <PlayIcon />}
-      </button>
     </article>
   )
-
 }

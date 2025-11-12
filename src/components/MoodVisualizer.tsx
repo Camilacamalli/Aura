@@ -64,7 +64,7 @@ export default function MoodVisualizer() {
   return (
     <section>
       <h1>Songs to feel {capitalizedMood}</h1>
-      <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
         {songs.map((song) => (
           <SongCard key={song.id} song={song} />
         ))}
