@@ -69,6 +69,14 @@ export default function MoodSelector() {
           ) : (
             <div>
               <h2>How would you like to feel?</h2>
+              <div>
+                {
+                  moodOptions.filter((mood) => mood.label !== selectedMood)
+                    .map((mood, i) => (
+                      <button key={i} aria-label={mood.label}><span>{mood.label}</span></button>
+                    ))
+                }
+              </div>
             </div>
           )}
         </div>
