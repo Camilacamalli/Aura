@@ -69,5 +69,13 @@ describe("MoodSelector component", () => {
 
 });
 
+test("Displays a modal after the user selects to change its mood", async () => {
+  render(<MoodSelector />);
+  const sadButton = screen.getByRole('button', { name: /^Sad$/i });
+  await userEvent.click(sadButton);
+  const changeMoodButton = screen.getByRole('button', { name: /songs to change my mood/i });
+  await userEvent.click(changeMoodButton);
+  expect(screen.getByRole('heading', { name: /how would you like to feel?/i })).toBeInTheDocument();
+});
 
 
