@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import Image from 'next/image'
 import { useRouter } from 'next/navigation';
+import MoodButton from './MoodButton';
 
 const moodOptions = [
   { label: 'Very Sad', emoji: '/emojis/crying.png' },
@@ -37,18 +37,11 @@ export default function MoodSelector() {
         <h2 className='mt-8 text-4xl font-bold text-emerald-700'>How would you like to feel?</h2>
         <h2 className='mt-8 text-2xl'>Select a new mood:</h2>
         <div className="mt-6 flex justify-center gap-4 md:gap-8">
-          {
-            moodOptions.filter((mood) => mood.label !== selectedMood)
-              .map((mood, i) => (
-                <button
-                  key={i}
-                  aria-label={mood.label} onClick={() => handleShowSongs(mood.label)}
-                  className="flex flex-col items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <div><Image src={mood.emoji} alt={mood.label} width={100} height={100} /> </div>
-                  <span>{mood.label}</span>
-                </button>
-              ))
+          {moodOptions
+            .filter((mood) => mood.label !== selectedMood)
+            .map((mood) => (
+              <MoodButton key={mood.label} mood={mood} onClick={() => handleShowSongs(mood.label)} />
+            ))
           }
         </div>
       </div>
@@ -61,15 +54,8 @@ export default function MoodSelector() {
       <p className='mt-2 text-lg font-medium text-gray-500'>{formattedDate}</p>
       <h2 className='mt-8 text-2xl font-bold text-emerald-700'>Select your Mood to get personalized songs recommendation!</h2>
       <div className="mt-6 flex justify-center gap-4 md:gap-8">
-        {moodOptions.map((mood, i) => (
-          <button
-            key={i}
-            className="flex flex-col items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            onClick={() => setSelectedMood(mood.label)}
-            aria-label={mood.label}>
-            <div><Image src={mood.emoji} alt={mood.label} width={100} height={100} /></div>
-            <span className="font-medium text-gray-600">{mood.label}</span>
-          </button>
+        {moodOptions.map((mood) => (
+          <MoodButton key={mood.label} mood={mood} onClick={() => setSelectedMood(mood.label)} />
         ))}
       </div>
 
