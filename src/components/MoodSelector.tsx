@@ -25,9 +25,9 @@ export default function MoodSelector() {
     day: 'numeric',
   }).format(today)
 
-  const handleShowSongs = () => {
+  const handleShowSongs = (mood: string) => {
     if (!selectedMood) return
-    router.push(`/results?mood=${selectedMood.toLowerCase()}`);
+    router.push(`/results?mood=${mood.toLowerCase()}`);
   }
 
 
@@ -39,7 +39,7 @@ export default function MoodSelector() {
           {
             moodOptions.filter((mood) => mood.label !== selectedMood)
               .map((mood, i) => (
-                <button key={i} aria-label={mood.label}>
+                <button key={i} aria-label={mood.label} onClick={() => handleShowSongs(mood.label)}>
                   <div><Image src={mood.emoji} alt={mood.label} width={100} height={100} /> </div>
                   <span>{mood.label}</span>
                 </button>
@@ -75,7 +75,7 @@ export default function MoodSelector() {
           <div className="mt-6 flex justify-center gap-4">
             <button
               className="h-10 px-6 font-semibold rounded-full bg-emerald-700 text-white"
-              onClick={handleShowSongs}
+              onClick={() => handleShowSongs(selectedMood)}
             >Songs to match my mood</button>
             <button
               className="h-10 px-6 font-semibold rounded-full border border-gray-300 text-emerald-700"
