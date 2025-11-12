@@ -12,7 +12,6 @@ describe("MoodSelector component", () => {
 
   beforeEach(() => {
     vi.resetAllMocks();
-
   })
 
   test("It renders a heading with 'What is your Mood today?'", () => {
@@ -43,39 +42,39 @@ describe("MoodSelector component", () => {
     })
   })
 
-  test("It displays a confirmation step after a mood is selected", async () => {
-    render(<MoodSelector />)
-    const sadButton = screen.getByRole('button', { name: /^Sad$/i });
-    await userEvent.click(sadButton);
-    expect(screen.getByRole('heading', { name: /You are feeling Sad/i })).toBeInTheDocument();
-    expect(screen.getByText(/What kind of music would you like?/i))
-    expect(screen.getByRole('button', { name: /Songs to match my mood/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Songs to change my mood/i })).toBeInTheDocument();
-  });
+  describe("After the user selects its mood...", () => {
 
-  test("It natigates to the results page with the correct mood when the user selects it", async () => {
-    const user = userEvent.setup();
+    let sadButton: HTMLElement;
     const mockPush = vi.fn();
-    vi.mocked(navigation.useRouter).mockReturnValue({ push: mockPush } as any);
-    render(<MoodSelector />);
-    const happyButton = screen.getByRole('button', { name: /^happy$/i });
-    await user.click(happyButton);
-    const matchMoodButton = await screen.findByRole('button', { name: /songs to match my mood/i });
-    await user.click(matchMoodButton);
 
-    expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).toHaveBeenCalledWith('/results?mood=happy');
+    beforeEach(async () => {
+      vi.resetAllMocks();
+      vi.mocked(navigation.useRouter).mockReturnValue({ push: mockPush } as any);
+      render(<MoodSelector />)
+      sadButton = screen.getByRole('button', { name: /^Sad$/i });
+      await userEvent.click(sadButton);
+    });
+
+    test("...it displays a confirmation step", async () => {
+      expect(screen.getByRole('heading', { name: /You are feeling Sad/i })).toBeInTheDocument();
+      expect(screen.getByText(/What kind of music would you like?/i))
+      expect(screen.getByRole('button', { name: /Songs to match my mood/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Songs to change my mood/i })).toBeInTheDocument();
+    });
+
+    test("...it displays a modal after the user selects to change its mood", async () => {
+      const changeMoodButton = screen.getByRole('button', { name: /songs to change my mood/i });
+      await userEvent.click(changeMoodButton);
+      expect(screen.getByRole('heading', { name: /how would you like to feel?/i })).toBeInTheDocument();
+    });
+
+    test("...it natigates to the results page with the correct mood", async () => {
+      const matchMoodButton = await screen.findByRole('button', { name: /songs to match my mood/i });
+      await userEvent.click(matchMoodButton);
+      expect(mockPush).toHaveBeenCalledTimes(1);
+      expect(mockPush).toHaveBeenCalledWith('/results?mood=sad');
+    });
   })
-
-});
-
-test("Displays a modal after the user selects to change its mood", async () => {
-  render(<MoodSelector />);
-  const sadButton = screen.getByRole('button', { name: /^Sad$/i });
-  await userEvent.click(sadButton);
-  const changeMoodButton = screen.getByRole('button', { name: /songs to change my mood/i });
-  await userEvent.click(changeMoodButton);
-  expect(screen.getByRole('heading', { name: /how would you like to feel?/i })).toBeInTheDocument();
 });
 
 
