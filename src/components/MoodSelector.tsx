@@ -35,11 +35,16 @@ export default function MoodSelector() {
     return (
       <div>
         <h2 className='mt-8 text-4xl font-bold text-emerald-700'>How would you like to feel?</h2>
-        <div>
+        <h2 className='mt-8 text-2xl'>Select a new mood:</h2>
+        <div className="mt-6 flex justify-center gap-4 md:gap-8">
           {
             moodOptions.filter((mood) => mood.label !== selectedMood)
               .map((mood, i) => (
-                <button key={i} aria-label={mood.label} onClick={() => handleShowSongs(mood.label)}>
+                <button
+                  key={i}
+                  aria-label={mood.label} onClick={() => handleShowSongs(mood.label)}
+                  className="flex flex-col items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                >
                   <div><Image src={mood.emoji} alt={mood.label} width={100} height={100} /> </div>
                   <span>{mood.label}</span>
                 </button>
