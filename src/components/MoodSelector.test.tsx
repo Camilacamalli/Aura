@@ -90,6 +90,14 @@ describe("MoodSelector component", () => {
   })
 });
 
-// luego de que el user seleccione cambiar de mood, aparecen los demas moods 
-
-
+test("It navigates with the new mood after choosing to change mood", async () => {
+  render(<MoodSelector/>)
+  const mockPush = vi.mocked(navigation.useRouter().push);
+  const sadButton = screen.getByRole('button', { name: /^sad$/i });
+  await userEvent.click(sadButton)
+  const changeMoodButton = screen.getByRole('button', { name: /songs to change my mood/i });
+  await userEvent.click(changeMoodButton);
+  const happyButton = screen.getByRole('button', { name: /^happy$/i });
+  await userEvent.click(happyButton);
+  expect(mockPush).toHaveBeenCalledWith('/results?mood=happy');
+})
