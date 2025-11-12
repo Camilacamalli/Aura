@@ -68,6 +68,19 @@ describe("MoodSelector component", () => {
       expect(screen.getByRole('heading', { name: /how would you like to feel?/i })).toBeInTheDocument();
     });
 
+    test("...and selects to change it, it replaces the initial view with the other moods to select a new one", async () => {
+      const changeMoodButton = screen.getByRole('button', { name: /songs to change my mood/i });
+      await userEvent.click(changeMoodButton);
+      const changeMoodSection = screen.getByRole('heading', { name: /how would you like to feel?/i }).parentElement;
+      expect(within(changeMoodSection!).getByRole('button', { name: /^very sad$/i })).toBeInTheDocument();
+      expect(within(changeMoodSection!).getByRole('button', { name: /^neutral$/i })).toBeInTheDocument();
+      expect(within(changeMoodSection!).getByRole('button', { name: /^Happy$/i })).toBeInTheDocument();
+      expect(within(changeMoodSection!).getByRole('button', { name: /^Very Happy$/i })).toBeInTheDocument();
+      expect(within(changeMoodSection!).queryByRole('button', { name: /^Sad$/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('heading', { name: /what is your mood today/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /songs to match my mood /i })).not.toBeInTheDocument();
+    })
+
     test("...it natigates to the results page with the correct mood", async () => {
       const matchMoodButton = await screen.findByRole('button', { name: /songs to match my mood/i });
       await userEvent.click(matchMoodButton);
@@ -78,17 +91,5 @@ describe("MoodSelector component", () => {
 });
 
 // luego de que el user seleccione cambiar de mood, aparecen los demas moods 
-test("after the user selects its mood, and selects to change it, it displays the other moods to select a new one", async () => {
-  render(<MoodSelector />);
-  const sadButton = screen.getByRole('button', { name: /^Sad$/i });
-  await userEvent.click(sadButton);
-  const changeMoodButton = screen.getByRole('button', { name: /songs to change my mood/i });
-  await userEvent.click(changeMoodButton);
-  const changeMoodSection = screen.getByRole('heading', { name: /how would you like to feel?/i }).parentElement;
-  expect(within(changeMoodSection!).getByRole('button', { name: /^very sad$/i })).toBeInTheDocument();
-  expect(within(changeMoodSection!).getByRole('button', { name: /^neutral$/i })).toBeInTheDocument();
-  expect(within(changeMoodSection!).getByRole('button', { name: /^Happy$/i })).toBeInTheDocument();
-  expect(within(changeMoodSection!).getByRole('button', { name: /^Very Happy$/i })).toBeInTheDocument();
-  expect(within(changeMoodSection!).queryByRole('button', { name: /^Sad$/i })).not.toBeInTheDocument();
-})
+
 
