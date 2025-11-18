@@ -3,8 +3,13 @@ import { test, vi } from 'vitest';
 import MoodVisualizer from '@/components/MoodVisualizer';
 import * as navigation from 'next/navigation';
 import { ReadonlyURLSearchParams } from 'next/navigation';
+import MoodBackground from './MoodBackground';
 
 vi.mock('next/navigation');
+
+vi.mock('@/components/MoodBackground', () => ({
+  default: vi.fn(({ mood }) => <div data-testid="mock-mood-background">{mood}</div>)
+}))
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
@@ -76,4 +81,27 @@ describe("MoodVisualizer displays...", () => {
     expect(errorMessage).toBeInTheDocument();
     expect(screen.queryByText(/oops!/i)).not.toBeInTheDocument();
   });
+});
+
+test("It renders the MoodBackground component with the correct mood", async () => {
+  const mockSong = [
+    {
+      id: 1001,
+      title: 'Walking on Sunshine',
+      artist: 'Katrina & The Waves',
+      album: 'Katrina & The Waves',
+      albumArt: 'http://example.com/sunshine.jpg',
+      previewUrl: 'http://example.com/sunshine.mp3'
+    },
+  ]
+
+  vi.resetAllMocks();
+  const mockSearchParams = new URLSearchParams({ mood: 'happy' });
+  vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
+  mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) });
+  render(<MoodVisualizer />);
+  await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i') })
+  expect(screen.getByTestId("mock-mood-background")).toBeInTheDocument();
+  expect(screen.getByTestId("mock-mood-background")).toHaveTextContent('happy')
+
 });
