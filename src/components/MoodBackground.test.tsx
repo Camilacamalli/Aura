@@ -18,3 +18,8 @@ describe("MoodBackground...", () => {
 
 })
 
+test("MoodBackground renders the 'happy' background when mood is 'happy'", () => {
+  render(<MoodBackground mood="happy" />);
+  expect(screen.getByTestId("mood-background-happy")).toBeInTheDocument()
+})
+
