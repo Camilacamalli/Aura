@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from 'react';
 import SongCard from '@/components/SongCard';
+import MoodBackground from '@/components/MoodBackground';
 
 type Song = {
   id: number;
@@ -71,7 +72,8 @@ export default function MoodVisualizer() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative isolate max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <MoodBackground mood={mood} />
       <div className="flex flex-col justify-between gap-3 py-8">
         <h1 className="font-bold text-4xl">Songs to feel {capitalizedMood}</h1>
         <p>Here are some tracks we think you&apos;ll love.</p>
