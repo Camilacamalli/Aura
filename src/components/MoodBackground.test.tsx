@@ -8,18 +8,21 @@ describe("MoodBackground...", () => {
     render(<MoodBackground />);
 
     expect(screen.getByTestId('mood-background-default')).toBeInTheDocument();
-  })
+  });
 
   test("...renders a very-sad background when mood is 'very sad'", () => {
     render(<MoodBackground mood="very sad" />);
 
-    expect(screen.getByTestId("mood-background-very-sad")).toBeInTheDocument()
-  })
+    expect(screen.getByTestId("mood-background-very-sad")).toBeInTheDocument();
+  });
 
-})
+  test("...renders the 'happy' background when mood is 'happy'", () => {
+    render(<MoodBackground mood="happy" />);
 
-test("MoodBackground renders the 'happy' background when mood is 'happy'", () => {
-  render(<MoodBackground mood="happy" />);
-  expect(screen.getByTestId("mood-background-happy")).toBeInTheDocument()
-})
+    expect(screen.getByTestId("mood-background-happy")).toBeInTheDocument();
+  });
+
+});
+
+
 
