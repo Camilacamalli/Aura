@@ -7,3 +7,7 @@ test("It renders a container to hold the raindrops", () => {
   expect(screen.getByTestId('raindrops-container')).toBeInTheDocument();
 })
 
+test("It renders multiple raindrop elements", () => {
+  render(<VerySadBackground />);
+  expect(screen.getAllByTestId("raindrop").length).toBeGreaterThan(0);
+})
