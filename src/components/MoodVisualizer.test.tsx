@@ -45,10 +45,19 @@ describe("MoodVisualizer", () => {
   });
 
   describe("It displays...", () => {
-    test("...a loading indicator on render", () => {
+
+    test.todo("...a loading indicator on render", () => {
       mockFetch.mockReturnValue(new Promise(() => { }))
       render(<MoodVisualizer />);
       expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    })
+
+    test("...a skeleton loader on render", () => {
+      mockFetch.mockReturnValue(new Promise(() => { }));
+      render(<MoodVisualizer />);
+      const skeletons = screen.getAllByTestId('skeleton-loader');
+      expect(skeletons.length).toBeGreaterThanOrEqual(4);
+      expect(screen.queryByText(/loading music/i)).not.toBeInTheDocument();
     })
 
     test("...recommended songs when data is fetched successfully", async () => {
