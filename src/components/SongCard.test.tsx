@@ -9,6 +9,8 @@ const pauseMock = vi.fn();
 window.HTMLMediaElement.prototype.play = playMock;
 window.HTMLMediaElement.prototype.pause = pauseMock;
 
+const mockToggle = vi.fn();
+
 describe("SongCard...", () => {
 
   const mockSong = {
@@ -25,24 +27,25 @@ describe("SongCard...", () => {
   })
 
   test("...renders song title, artist and album art", () => {
-    render(<SongCard song={mockSong} />);
+    render(<SongCard song={mockSong} isPlaying={false} onToggle={mockToggle} />);
     const element = screen.getByRole('heading', { name: new RegExp(mockSong.title, 'i') })
     expect(element).toBeInTheDocument();
     expect(screen.getByText(new RegExp(mockSong.artist, 'i'))).toBeInTheDocument()
     expect(screen.getByRole('img', { name: new RegExp(`album art for ${mockSong.title}`, 'i') })).toBeInTheDocument();
   });
 
-  test("...plays and pause the audio preview when the button is clicked", async () => {
-    const user = userEvent.setup();
-
-    render(<SongCard song={mockSong} />);
+  test("...calls onToggle when button is clicked", async () => {
+    render(<SongCard song={mockSong} isPlaying={false} onToggle={mockToggle} />);
     const playButton = screen.getByRole('button', { name: /play preview/i });
-    await user.click(playButton);
-    expect(playMock).toHaveBeenCalledTimes(1);
-    const pauseButton = await screen.findByRole('button', { name: /pause preview/i });
-    await user.click(pauseButton);
-    expect(pauseMock).toHaveBeenCalledTimes(1);
-  })
-})
+    await userEvent.click(playButton);
+    expect(mockToggle).toHaveBeenCalledTimes(1);
+  });
+
+  test("...plays audio when isPlaying prop is true", async () => {
+    render(<SongCard song={mockSong} isPlaying={true} onToggle={mockToggle} />);
+    expect(playMock).toHaveBeenCalled();
+  });
+
+});
 
 

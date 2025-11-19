@@ -1,7 +1,7 @@
 "use client";
 
 import Image from 'next/image';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const PlayIcon = () => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
   <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clipRule="evenodd" /></svg>
@@ -18,20 +18,23 @@ type Song = {
   previewUrl: string | null
 }
 
-export default function SongCard({ song }: { song: Song }) {
+interface SongCardProps {
+  song: Song;
+  isPlaying: boolean;
+  onToggle: () => void;
+}
 
-  const [isPlaying, setIsPlaying] = useState(false);
+export default function SongCard({ song, isPlaying, onToggle }: SongCardProps) {
+
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const togglePlayPause = () => {
+  useEffect(() => {
     if (isPlaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
-    } else {
       audioRef.current?.play();
-      setIsPlaying(true);
+    } else {
+      audioRef.current?.pause();
     }
-  }
+  }, [isPlaying]);
 
   return (
     <article className='bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out overflow-hidden transform hover:-translate-y-1 flex flex-col h-full'>
@@ -46,7 +49,7 @@ export default function SongCard({ song }: { song: Song }) {
 
         {song.previewUrl && (
           <button
-            onClick={togglePlayPause}
+            onClick={onToggle}
             aria-label={isPlaying ? "Pause Preview" : "Play Preview"}
             className="absolute inset-0 flex items-center justify-center bg-black text-white transition-opacity duration-300 opacity-0 group-hover:opacity-60 focus:opacity-60"
           >

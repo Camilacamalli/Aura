@@ -20,6 +20,7 @@ export default function MoodVisualizer() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  const [playingSongId, setPlayingSongId] = useState<number | null>(null);
 
   const capitalizedMood = mood ? mood.charAt(0).toUpperCase() + mood.slice(1) : '';
 
@@ -44,6 +45,13 @@ export default function MoodVisualizer() {
     fetchSongs();
   }, [mood]);
 
+  const handleSongToggle = (id: number) => {
+    if (playingSongId === id) {
+      setPlayingSongId(null);
+    } else {
+      setPlayingSongId(id);
+    }
+  }
 
   if (loading) {
     return (
@@ -78,7 +86,12 @@ export default function MoodVisualizer() {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 py-4 grid-auto-rows-fr">
         {songs.map((song) => (
-          <SongCard key={song.id} song={song} />
+          <SongCard
+            key={song.id}
+            song={song}
+            isPlaying={playingSongId === song.id}
+            onToggle={() => handleSongToggle(song.id)}
+          />
         ))}
       </div>
     </section>
