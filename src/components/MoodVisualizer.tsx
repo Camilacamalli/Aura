@@ -2,16 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from 'react';
+import { Song } from '@/types/types';
 import SongCard from '@/components/SongCard';
-
-type Song = {
-  id: number;
-  title: string;
-  artist: string;
-  album: string;
-  albumArt: string;
-  previewUrl: string | null;
-};
 
 export default function MoodVisualizer() {
   const searchParams = useSearchParams();
