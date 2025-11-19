@@ -29,7 +29,9 @@ export default function SongCard({ song, isPlaying, onToggle }: SongCardProps) {
   }, [isPlaying]);
 
   return (
-    <article className='bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out overflow-hidden transform hover:-translate-y-1 flex flex-col h-full'>
+    <article
+      data-testid="song-card"
+      className={`bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out overflow-hidden transform flex flex-col h-full ${isPlaying ? 'ring-4 ring-emerald-600' : 'hover:shadow-2xl hover:-translate-y-1'}`}>
       <div className="relative group">
         <Image
           src={song.albumArt}
