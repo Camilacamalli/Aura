@@ -55,14 +55,22 @@ export default function MoodVisualizer() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen w-full flex-col justify-center items-center py-32 px-16 bg-white dark:bg-black">
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-emerald-700"></div>
-          <p className="font-bold text-4xl text-emerald-700">
-            Loading music for you...
-          </p>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-between gap-3 py-8">
+          <div className="h-10 bg-gray-200 rounded w-1/3 animate-pulse"></div>
+          <div className="h-6 bg-gray-200 rounded w-1/4 animate-pulse"></div>
         </div>
-      </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 py-4">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div
+              key={index}
+              data-testid="skeleton-loader"
+              className="bg-gray-200 rounded-xl h-64 w-full animate-pulse"
+            />
+          ))}
+        </div>
+      </section>
     )
   }
 
