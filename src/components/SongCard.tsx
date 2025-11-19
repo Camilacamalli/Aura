@@ -69,7 +69,7 @@ export default function SongCard({ song, isPlaying, onToggle }: SongCardProps) {
         </div>
       </div>
 
-      {song.previewUrl && <audio ref={audioRef} src={song.previewUrl} />}
+      {song.previewUrl && <audio ref={audioRef} src={song.previewUrl} onEnded={onToggle} />}
     </article>
   )
 }
