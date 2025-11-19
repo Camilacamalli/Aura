@@ -57,3 +57,19 @@ describe("SongCard...", () => {
   });
 
 });
+
+test("SongCard has active styling when playing", () => {
+  const mockSong = {
+    id: 1001,
+    title: 'Walking on Sunshine',
+    artist: 'Katrina & The Waves',
+    album: 'Katrina & The Waves',
+    albumArt: 'http://example.com/sunshine.jpg',
+    previewUrl: 'http://example.com/sunshine.mp3'
+  }
+
+  render(<SongCard song={mockSong} isPlaying={true} onToggle={mockToggle} />);
+  const card = screen.getByTestId('song-card');
+  expect(card).toHaveClass('ring-4');
+  expect(card).toHaveClass('ring-emerald-600');
+});
