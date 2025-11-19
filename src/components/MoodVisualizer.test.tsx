@@ -3,11 +3,19 @@ import { test, vi } from 'vitest';
 import MoodVisualizer from '@/components/MoodVisualizer';
 import * as navigation from 'next/navigation';
 import { ReadonlyURLSearchParams } from 'next/navigation';
+import userEvent from '@testing-library/user-event';
 
 vi.mock('next/navigation');
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
+
+
+const playMock = vi.fn();
+const pauseMock = vi.fn();
+
+window.HTMLMediaElement.prototype.play = playMock;
+window.HTMLMediaElement.prototype.pause = pauseMock;
 
 describe("MoodVisualizer displays...", () => {
 
@@ -76,4 +84,42 @@ describe("MoodVisualizer displays...", () => {
     expect(errorMessage).toBeInTheDocument();
     expect(screen.queryByText(/oops!/i)).not.toBeInTheDocument();
   });
+});
+
+test("When I click a second song to listen, the first song should pause", async () => {
+  const mockMood = 'happy'
+  const mockSong = [
+    {
+      id: 1001,
+      title: 'Walking on Sunshine',
+      artist: 'Katrina & The Waves',
+      album: 'Katrina & The Waves',
+      albumArt: 'http://example.com/sunshine.jpg',
+      previewUrl: 'http://example.com/sunshine.mp3'
+    },
+    {
+      id: 1002,
+      title: 'Happy',
+      artist: 'Pharrell Williams',
+      album: 'G I R L',
+      albumArt: 'http://example.com/happy.jpg',
+      previewUrl: 'http://example.com/happy.mp3'
+    },
+  ]
+
+  vi.resetAllMocks();
+  const mockSearchParams = new URLSearchParams({ mood: mockMood });
+  vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
+  const user = userEvent.setup();
+  mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) });
+  render(<MoodVisualizer />);
+  const playButtons = await screen.findAllByRole('button', { name: /play preview/i });
+  await user.click(playButtons[0]);
+  expect(playMock).toHaveBeenCalledTimes(1);
+  playMock.mockClear();
+  pauseMock.mockClear();
+  await user.click(playButtons[1]);
+  expect(playMock).toHaveBeenCalledTimes(1);
+  expect(pauseMock).toHaveBeenCalledTimes(1);
+
 });
