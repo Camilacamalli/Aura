@@ -46,12 +46,6 @@ describe("MoodVisualizer", () => {
 
   describe("It displays...", () => {
 
-    test.todo("...a loading indicator on render", () => {
-      mockFetch.mockReturnValue(new Promise(() => { }))
-      render(<MoodVisualizer />);
-      expect(screen.getByText(/loading/i)).toBeInTheDocument();
-    })
-
     test("...a skeleton loader on render", () => {
       mockFetch.mockReturnValue(new Promise(() => { }));
       render(<MoodVisualizer />);
