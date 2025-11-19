@@ -48,4 +48,21 @@ describe("SongCard...", () => {
 
 });
 
+test("Calls onToggle when the audio ends naturally", () => {
+  const mockSong = {
+    id: 1001,
+    title: 'Walking on Sunshine',
+    artist: 'Katrina & The Waves',
+    album: 'Katrina & The Waves',
+    albumArt: 'http://example.com/sunshine.jpg',
+    previewUrl: 'http://example.com/sunshine.mp3'
+  }
+
+  const { container } = render(<SongCard song={mockSong} isPlaying={true} onToggle={mockToggle} />);
+  const audioElement = container.querySelector('audio');
+
+  const event = new Event('ended');
+  audioElement?.dispatchEvent(event);
+  expect(mockToggle).toHaveBeenCalledTimes(1);
+})
 
