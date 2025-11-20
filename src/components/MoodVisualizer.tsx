@@ -16,7 +16,7 @@ export default function MoodVisualizer() {
   const [playingSongId, setPlayingSongId] = useState<number | null>(null);
 
   const capitalizedMood = mood ? mood.charAt(0).toUpperCase() + mood.slice(1) : '';
-  const isRainy = mood === 'sad';
+  const isRainyMood = mood === 'sad' || mood === 'very sad';
 
   useEffect(() => {
 
@@ -81,7 +81,7 @@ export default function MoodVisualizer() {
   }
 
   return (
-    <div className={`relative min-h-screen w-full transition-colors duration-500 ${isRainy ? 'bg-transparent text-white' : 'bg-gray-100 text-black'}`}>
+    <div className={`relative min-h-screen w-full transition-colors duration-500 ${isRainyMood ? 'bg-transparent text-white' : 'bg-gray-100 text-black'}`}>
       <MoodBackground mood={mood || ''} />
       <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-3 py-8">
