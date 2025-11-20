@@ -90,6 +90,16 @@ describe("MoodVisualizer", () => {
 
   });
 
+  test("It displays the rain effect when mood is sad", async () => {
+    const mockSearchParams = new URLSearchParams({ mood: 'sad' });
+    vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
+    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) })
+    render(<MoodVisualizer />);
+    await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });
+    const rainEffect = screen.getByTestId('rain-bg');
+    expect(rainEffect).toBeInTheDocument();
+  });
+
   test("When I click a second song to listen, the first song should pause", async () => {
     mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) });
     render(<MoodVisualizer />);
@@ -107,24 +117,4 @@ describe("MoodVisualizer", () => {
 
 });
 
-test("It renders the rain effect when mood is sad", async () => {
-  vi.resetAllMocks();
 
-  const mockSong = [
-    {
-      id: 1001,
-      title: 'Walking on Sunshine',
-      artist: 'Katrina & The Waves',
-      album: 'Katrina & The Waves',
-      albumArt: 'http://example.com/sunshine.jpg',
-      previewUrl: 'http://example.com/sunshine.mp3'
-    }
-  ]
-  const mockSearchParams = new URLSearchParams({ mood: 'sad' });
-  vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
-  mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) })
-  render(<MoodVisualizer />);
-  await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });
-  const rainEffect = screen.getByTestId('rain-bg');
-  expect(rainEffect).toBeInTheDocument();
-})
