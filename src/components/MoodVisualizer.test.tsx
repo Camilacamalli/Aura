@@ -100,6 +100,18 @@ describe("MoodVisualizer", () => {
     expect(rainEffect).toBeInTheDocument();
   });
 
+  test("it displays lightning effect when mood is very sad", async () => {
+    const mockSearchParams = new URLSearchParams({ mood: 'very sad' });
+    vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
+    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) })
+    render(<MoodVisualizer />);
+    await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });
+    const rainEffect = screen.getByTestId('rain-bg');
+
+    const lightning = rainEffect.querySelector('.lightning-layer');
+    expect(lightning).toBeInTheDocument();
+  })
+
   test("When I click a second song to listen, the first song should pause", async () => {
     mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) });
     render(<MoodVisualizer />);
