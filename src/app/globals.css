@@ -142,3 +142,127 @@ body {
   background-size: 256px 256px;
   opacity: 0.4;
 }
+
+/* /* Energetic Confetti Layers */
+/* .euphoria-layer { */
+/*   position: absolute; */
+/*   top: 0; */
+/*   left: 0; */
+/*   width: 100%; */
+/*   height: 100%; */
+/*   background-repeat: repeat; */
+/*   animation: rise-scroll linear infinite; */
+/*   opacity: 0; */
+/* } */
+/**/
+/* /* Small Confetti (Squares/Dots) */
+/* .confetti-small { */
+/*   background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuOCI+PHJlY3QgeD0iMjAiIHk9IjMwIiB3aWR0aD0iMyIgaGVpZ2h0PSIzIi8+PHJlY3QgeD0iMTUwIiB5PSI3MCIgd2lkdGg9IjMiIGhlaWdodD0iMyIvPjxyZWN0IHg9IjkwIiB5PSIxOTAiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiLz48cmVjdCB4PSIyMjAiIHk9IjIyMCIgd2lkdGg9IjMiIGhlaWdodD0iMyIvPjwvZz48L3N2Zz4="); */
+/*   animation-duration: 2.5s; */
+/*   background-size: 256px 256px; */
+/*   opacity: 0.9; */
+/* } */
+/**/
+/* /* Medium Confetti (Triangles) */
+/* .confetti-medium { */
+/*   background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuNyIgZD0iTTQwIDUwIEw0NSA2MCBMMzUgNjAgWiBNMTgwIDEzMCBMMTg1IDE0MCBMMTc1IDE0MCBaIE02MCAyMTAgTDY1IDIyMCBMNTUgMjIwIFoiLz48L3N2Zz4="); */
+/*   animation-duration: 3.5s; */
+/*   background-size: 256px 256px; */
+/*   opacity: 0.7; */
+/* } */
+/**/
+/* /* Large Stars (The "Pop" element) */
+/* .confetti-large { */
+/*   background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuNSIgZD0iTTgwIDYwIEw4NSA4MCBMMTA1IDg1IEw4NSA5MCBMODAgMTEwIEw3NSA5MCBMNTUgODUgTDc1IDgwIFoiLz48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuNSIgZD0iTTE4MCAxNjAgTTE4NSAxODAgTDIwNSAxODUgTTE4NSAxOTAgTTE4MCAyMTAgTTE3NSAxOTAgTTE1NSAxODUgTTE3NSAxODAgWiIvPjwvc3ZnPg=="); */
+/*   animation-duration: 5s; */
+/*   background-size: 256px 256px; */
+/*   opacity: 0.6; */
+/* } */
+
+/* --- VERY HAPPY / DISCO VIBES --- */
+
+/* 1. The Spinning Animation (For light beams) */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+/* 2. The "Bass" Pulse (Background zooms slightly like a speaker) */
+@keyframes bass-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* 3. The Light Beams (Conic Gradients) */
+.disco-rays {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  /* This creates the "Ray" effect */
+  background: repeating-conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 20deg,
+    rgba(255, 255, 255, 0.1) 25deg,
+    /* Subtle light beam */ transparent 30deg
+  );
+  animation: spin-slow 20s linear infinite;
+  pointer-events: none;
+}
+
+/* A second layer of rays moving the other way for complexity */
+.disco-rays-reverse {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-conic-gradient(
+    from 180deg,
+    transparent 0deg,
+    transparent 15deg,
+    rgba(255, 255, 255, 0.05) 20deg,
+    transparent 35deg
+  );
+  animation: spin-reverse 15s linear infinite;
+  pointer-events: none;
+}
+
+/* A central glow that pulses to the "beat" */
+.disco-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80vw;
+  height: 80vw;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 70%
+  );
+  animation: bass-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}

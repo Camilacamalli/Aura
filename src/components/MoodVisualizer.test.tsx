@@ -121,6 +121,8 @@ describe("MoodVisualizer", () => {
   })
 
   test("It displays an energetic effect when mood is very happy", async () => {
+    const mockSearchParams = new URLSearchParams({ mood: 'very happy' });
+    vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
     mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) })
     render(<MoodVisualizer />);
     await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });

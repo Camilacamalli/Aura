@@ -18,6 +18,7 @@ export default function MoodVisualizer() {
   const capitalizedMood = mood ? mood.charAt(0).toUpperCase() + mood.slice(1) : '';
   const isRainyMood = mood === 'sad' || mood === 'very sad';
   const isHappyMood = mood === 'happy';
+  const isVeryHappyMood = mood === 'very happy';
 
   useEffect(() => {
 
@@ -82,8 +83,8 @@ export default function MoodVisualizer() {
   }
 
   return (
-    <div className={`relative min-h-screen w-full transition-colors duration-500 ${isRainyMood ? 'bg-transparent text-white' :
-        isHappyMood ? 'bg-transparent text-emerald-950' : 'bg-gray-100 text-black'
+    <div className={`relative min-h-screen w-full transition-colors duration-500 ${(isRainyMood || isVeryHappyMood) ? 'bg-transparent text-white' :
+      isHappyMood ? 'bg-transparent text-emerald-950' : 'bg-gray-100 text-black'
       } `}>
       <MoodBackground mood={mood || ''} />
       <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
