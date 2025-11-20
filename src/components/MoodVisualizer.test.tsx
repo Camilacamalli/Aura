@@ -112,6 +112,14 @@ describe("MoodVisualizer", () => {
     expect(lightning).toBeInTheDocument();
   })
 
+  test("It displays happy effect when mood is happy", async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) })
+    render(<MoodVisualizer />);
+    await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });
+    const happyEffect = screen.getByTestId('happy-bg');
+    expect(happyEffect).toBeInTheDocument();
+  })
+
   test("When I click a second song to listen, the first song should pause", async () => {
     mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) });
     render(<MoodVisualizer />);
