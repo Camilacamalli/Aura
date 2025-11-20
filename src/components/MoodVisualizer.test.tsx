@@ -120,6 +120,14 @@ describe("MoodVisualizer", () => {
     expect(happyEffect).toBeInTheDocument();
   })
 
+  test("It displays an energetic effect when mood is very happy", async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) })
+    render(<MoodVisualizer />);
+    await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });
+    const energeticEffect = screen.getByTestId('euphoria-bg');
+    expect(energeticEffect).toBeInTheDocument();
+  })
+
   test("When I click a second song to listen, the first song should pause", async () => {
     mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) });
     render(<MoodVisualizer />);
