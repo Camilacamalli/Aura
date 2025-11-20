@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from 'react';
 import { Song } from '@/types/types';
 import SongCard from '@/components/SongCard';
+import MoodBackground from "./MoodBackground";
 
 export default function MoodVisualizer() {
   const searchParams = useSearchParams();
@@ -15,6 +16,7 @@ export default function MoodVisualizer() {
   const [playingSongId, setPlayingSongId] = useState<number | null>(null);
 
   const capitalizedMood = mood ? mood.charAt(0).toUpperCase() + mood.slice(1) : '';
+  const isRainy = mood === 'sad';
 
   useEffect(() => {
 
@@ -79,21 +81,24 @@ export default function MoodVisualizer() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col justify-between gap-3 py-8">
-        <h1 className="font-bold text-4xl">Songs to feel {capitalizedMood}</h1>
-        <p>Here are some tracks we think you&apos;ll love.</p>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 py-4 grid-auto-rows-fr">
-        {songs.map((song) => (
-          <SongCard
-            key={song.id}
-            song={song}
-            isPlaying={playingSongId === song.id}
-            onToggle={() => handleSongToggle(song.id)}
-          />
-        ))}
-      </div>
-    </section>
+    <div className={`relative min-h-screen w-full transition-colors duration-500 ${isRainy ? 'bg-transparent text-white' : 'bg-gray-100 text-black'}`}>
+      <MoodBackground mood={mood || ''} />
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-between gap-3 py-8">
+          <h1 className="font-bold text-4xl">Songs to feel {capitalizedMood}</h1>
+          <p>Here are some tracks we think you&apos;ll love.</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 py-4 grid-auto-rows-fr">
+          {songs.map((song) => (
+            <SongCard
+              key={song.id}
+              song={song}
+              isPlaying={playingSongId === song.id}
+              onToggle={() => handleSongToggle(song.id)}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
   )
 }

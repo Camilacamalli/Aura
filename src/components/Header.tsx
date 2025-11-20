@@ -23,7 +23,7 @@ export default function Header() {
   const config = routes_config[pathname];
 
   return (
-    <header className="flex items-center justify-between border-b border-solid border-gray-200 px-4 md:px-10 py-3">
+    <header className="relative z-50 flex items-center justify-between border-b border-solid border-gray-200 px-4 md:px-10 py-3 bg-white dark:bg-black transition-colors">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10">
           <Image src={logo_url} alt={logo_alt_text} width={50} height={100} />
