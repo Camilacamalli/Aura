@@ -4,6 +4,7 @@ import React from 'react';
 import RainEffect from '@/animations/RainEffect';
 import HappyEffect from '@/animations/HappyEffect';
 import VeryHappyEffect from '@/animations/VeryHappyEffect';
+import NeutralEffect from '@/animations/NeutralEffect';
 
 type Props = {
   mood: string;
@@ -11,7 +12,7 @@ type Props = {
 
 const moodConfig: Record<string, { gradient: string, component: React.ReactNode, id: string }> = {
   'sad': {
-    gradient: "bg-gradient-to-b from-gray-400 via-gray-400 to-black",
+    gradient: "bg-gradient-to-b from-gray-400 via-gray-400 to-gray-700",
     component: <RainEffect isHeavy={false} />,
     id: "rain-bg"
   },
@@ -29,6 +30,11 @@ const moodConfig: Record<string, { gradient: string, component: React.ReactNode,
     gradient: "bg-gradient-to-br from-indigo-900 via-purple-900 to-rose-300",
     component: <VeryHappyEffect />,
     id: "euphoria-bg"
+  },
+  'neutral': {
+    gradient: "bg-gradient-to-b from-emerald-100 via-teal-100 to-cyan-100",
+    component: <NeutralEffect />,
+    id: "neutral-bg"
   }
 }
 

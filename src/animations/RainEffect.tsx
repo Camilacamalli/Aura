@@ -1,30 +1,87 @@
-"use client"
-import React from 'react';
+"use client";
+import React, { useEffect, useState } from "react";
 
 type Props = {
-  isHeavy: boolean
+  isHeavy: boolean;
+};
+
+type Drop = {
+  id: number;
+  left: number;
+  top: number;
+  size: number;
+  delay: number;
+  duration: number;
 };
 
 export default function RainEffect({ isHeavy }: Props) {
-  const getDuration = (normal: string, fast: string) => isHeavy ? fast : normal;
-  const denseClass = isHeavy ? 'rain-heavy' : '';
+  const [staticDrops, setStaticDrops] = useState<Drop[]>([]);
+  const [fallingDrops, setFallingDrops] = useState<Drop[]>([]);
+
+  useEffect(() => {
+    const staticCount = isHeavy ? 40 : 20;
+    const newStatic: Drop[] = [];
+
+    for (let i = 0; i < staticCount; i++) {
+      newStatic.push({
+        id: i,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        size: Math.random() * 0.8 + 0.4,
+        delay: Math.random() * 5,
+        duration: 0,
+      });
+    }
+    setStaticDrops(newStatic);
+
+    const fallCount = isHeavy ? 60 : 30;
+    const newFalling: Drop[] = [];
+
+    for (let i = 0; i < fallCount; i++) {
+      newFalling.push({
+        id: i + 1000,
+        left: Math.random() * 100,
+        top: -20,
+        size: Math.random() * 1.0 + 0.6,
+        delay: Math.random() * 15,
+        duration: Math.random() * 9 + 3,
+      });
+    }
+    setFallingDrops(newFalling);
+
+  }, [isHeavy]);
 
   return (
-    <>
-      {isHeavy && <div className="lightning-layer" />}
+    <div className="glass-container">
+      {isHeavy && <div className="lightning-flash" />}
 
-      <div
-        className={`rain-layer rain-small ${denseClass}`}
-        style={{ animationDuration: getDuration('1.2s', '0.4s') }}
-      />
-      <div
-        className={`rain-layer rain-medium ${denseClass}`}
-        style={{ animationDuration: getDuration('0.9s', '0.5s') }}
-      />
-      <div
-        className={`rain-layer rain-large ${denseClass}`}
-        style={{ animationDuration: getDuration('0.7s', '0.5s') }}
-      />
-    </>
+      {staticDrops.map((drop) => (
+        <div
+          key={drop.id}
+          className="water-drop static-drop"
+          style={{
+            left: `${drop.left}%`,
+            top: `${drop.top}%`,
+            width: `${drop.size}rem`,
+            height: `${drop.size}rem`,
+            animationDelay: `${drop.delay}s`,
+          }}
+        />
+      ))}
+
+      {fallingDrops.map((drop) => (
+        <div
+          key={drop.id}
+          className="water-drop falling-drop"
+          style={{
+            left: `${drop.left}%`,
+            width: `${drop.size}rem`,
+            height: `${drop.size}rem`,
+            animationDuration: `${drop.duration}s`,
+            animationDelay: `${drop.delay}s`,
+          }}
+        />
+      ))}
+    </div>
   );
 }

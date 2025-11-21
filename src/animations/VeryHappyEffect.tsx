@@ -1,13 +1,11 @@
 "use client";
 
-import React from "react";
-
-export default function DiscoEffect() {
+export default function VeryHappyEffect() {
   return (
-    <>
-      <div className="disco-rays" />
-      <div className="disco-rays-reverse" />
-      <div className="disco-glow" />
-    </>
+    <div className="aurora-container">
+      <div className="aurora-lights aurora-1" />
+      <div className="aurora-lights aurora-2" />
+      <div className="aurora-lights aurora-3" />
+    </div>
   );
 }
