@@ -108,7 +108,7 @@ describe("MoodVisualizer", () => {
     await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });
     const rainEffect = screen.getByTestId('rain-bg');
 
-    const lightning = rainEffect.querySelector('.lightning-layer');
+    const lightning = rainEffect.querySelector('.lightning-flash');
     expect(lightning).toBeInTheDocument();
   })
 
@@ -128,6 +128,16 @@ describe("MoodVisualizer", () => {
     await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });
     const energeticEffect = screen.getByTestId('euphoria-bg');
     expect(energeticEffect).toBeInTheDocument();
+  })
+
+  test("It displays neutral background when mood is neutral", async () => {
+    const mockSearchParams = new URLSearchParams({ mood: 'neutral' });
+    vi.mocked(navigation.useSearchParams).mockReturnValue(mockSearchParams as unknown as ReadonlyURLSearchParams);
+    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(mockSong) })
+    render(<MoodVisualizer />);
+    await screen.findByRole('heading', { name: new RegExp(mockSong[0].title, 'i'), level: 2 });
+    const neutralBg = screen.getByTestId('neutral-bg');
+    expect(neutralBg).toBeInTheDocument();
   })
 
   test("When I click a second song to listen, the first song should pause", async () => {
